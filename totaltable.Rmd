@@ -1,0 +1,14 @@
+---
+title: "totaltable"
+author: "Yanan Ren"
+date: "2016Äê10ÔÂ8ÈÕ"
+output: word_document
+---
+
+```{r results = 'asis',echo=FALSE}
+total <- read.csv('D:/Biostatistics/2016FallRA/output/total.csv',header=T, sep=',')
+total<-as.data.frame(total[,3:8])
+library(knitr)
+kable(total, caption = "Table II. Total Scale Method Secondary Outcomes")
+```
+

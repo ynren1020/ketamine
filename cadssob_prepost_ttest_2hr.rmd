@@ -1,0 +1,183 @@
+---
+title: "CADSS_ob_prepost_ttest"
+author: "Yanan Ren"
+date: "2016Äê10ÔÂ8ÈÕ"
+output: word_document
+---
+
+```{r results = 'asis',echo=FALSE} 
+## read dataset ##
+setwd("D:/Biostatistics/2016FallRA/")
+ketamine<-read.csv("dataset/ket.csv", header=T, sep=',')
+attach(ketamine)
+nrow(ketamine)
+ncol(ketamine)
+
+
+##cadssob subset ##
+
+cadssob<-as.character(c("grid","bl_cadss_observer_total",              "ptx_cadss_observer_total","pre_inf1_cadss_observer_total",         "X2hr_inf1_cadss_observer_total","pre_inf2_cadss_observer_total",
+"X2hr_inf2_cadss_observer_total","pre_inf3_cadss_observer_total",
+"X2hr_inf3_cadss_observer_total","pre_inf4_cadss_observer_total",
+"X2hr_inf4_cadss_observer_total","pre_inf5_cadss_observer_total",
+"X2hr_inf5_cadss_observer_total","pre_inf6_cadss_observer_total",
+"X2hr_inf6_cadss_observer_total"))
+ketaminecadssob<-ketamine[cadssob]
+
+ncol(ketaminecadssob)
+nrow(ketaminecadssob)
+head(ketaminecadssob)
+ketaminecadssob[ketaminecadssob[,]=="NULL"]<-NA
+View(ketaminecadssob)
+
+## teps con infusion 1 ##
+ketaminecadssob1<-na.omit(ketaminecadssob[,4:5])
+nrow(ketaminecadssob1)  ##N=6
+
+inf1_pre.mean<-mean(as.numeric(as.character(ketaminecadssob1[,1])))
+inf1_pre.mean  ##6.25
+inf1_pre.sd<-sd(as.numeric(as.character(ketaminecadssob1[,1])))
+inf1_pre.sd   ## 8.276
+inf1_post.mean<-mean(as.numeric(as.character(ketaminecadssob1[,2])))
+inf1_post.mean  ##2.25
+inf1_post.sd<-sd(as.numeric(as.character(ketaminecadssob1[,2])))
+inf1_post.sd    ##4.097
+
+diff_cadssob1<-as.numeric(as.character(ketaminecadssob1[,1]))-as.numeric(as.character(ketaminecadssob1[,2]))
+diff_cadssob1
+mean(diff_cadssob1)  #4
+sd(diff_cadssob1)    #4.840
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.182
+t.test(diff_cadssob1, mu=0, alternative="greater", conf.level=0.95)
+
+## cadssob infusion2 ##
+ketaminecadssob2<-na.omit(ketaminecadssob[,6:7])
+nrow(ketaminecadssob2)  ##N=7
+
+inf2_pre.mean<-mean(as.numeric(as.character(ketaminecadssob2[,1])))
+inf2_pre.mean  ##2.5
+inf2_pre.sd<-sd(as.numeric(as.character(ketaminecadssob2[,1])))
+inf2_pre.sd   ## 5.155
+inf2_post.mean<-mean(as.numeric(as.character(ketaminecadssob2[,2])))
+inf2_post.mean  ##2.25
+inf2_post.sd<-sd(as.numeric(as.character(ketaminecadssob2[,2])))
+inf2_post.sd    ##4.097
+
+diff_cadssob2<-as.numeric(as.character(ketaminecadssob2[,1]))-as.numeric(as.character(ketaminecadssob2[,2]))
+diff_cadssob2
+mean(diff_cadssob2) #0.25
+sd(diff_cadssob2)   #1.389
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.313
+t.test(diff_cadssob2, mu=0, alternative="greater", conf.level=0.95)
+
+## cadssob infusion3 ##
+ketaminecadssob3<-na.omit(ketaminecadssob[,8:9])
+nrow(ketaminecadssob3)  ##N=8
+
+inf3_pre.mean<-mean(as.numeric(as.character(ketaminecadssob3[,1])))
+inf3_pre.mean  ##2.375
+inf3_pre.sd<-sd(as.numeric(as.character(ketaminecadssob3[,1])))
+inf3_pre.sd   ## 4.274
+inf3_post.mean<-mean(as.numeric(as.character(ketaminecadssob3[,2])))
+inf3_post.mean  ##2.375
+inf3_post.sd<-sd(as.numeric(as.character(ketaminecadssob3[,2])))
+inf3_post.sd    ##4.104
+
+diff_cadssob3<-as.numeric(as.character(ketaminecadssob3[,1]))-as.numeric(as.character(ketaminecadssob3[,2]))
+diff_cadssob3
+mean(diff_cadssob3)  #0
+sd(diff_cadssob3)   #1.414
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=NA
+t.test(diff_cadssob3, mu=0, alternative="greater", conf.level=0.95)
+
+## cadssob infusion4 ##
+ketaminecadssob4<-na.omit(ketaminecadssob[,10:11])
+nrow(ketaminecadssob4)  ##N=8
+
+inf4_pre.mean<-mean(as.numeric(as.character(ketaminecadssob4[,1])))
+inf4_pre.mean  ##2
+inf4_pre.sd<-sd(as.numeric(as.character(ketaminecadssob4[,1])))
+inf4_pre.sd   ## 4.175
+inf4_post.mean<-mean(as.numeric(as.character(ketaminecadssob4[,2])))
+inf4_post.mean  ##1.875
+inf4_post.sd<-sd(as.numeric(as.character(ketaminecadssob4[,2])))
+inf4_post.sd    ##4.155
+
+diff_cadssob4<-as.numeric(as.character(ketaminecadssob4[,1]))-as.numeric(as.character(ketaminecadssob4[,2]))
+diff_cadssob4
+mean(diff_cadssob4) #0.125
+sd(diff_cadssob4)   #0.354
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=NA
+t.test(diff_cadssob4, mu=0, alternative="greater", conf.level=0.95)
+
+## cadssob infusion5 ##
+ketaminecadssob5<-na.omit(ketaminecadssob[,12:13])
+nrow(ketaminecadssob5)  ##N=8
+
+inf5_pre.mean<-mean(as.numeric(as.character(ketaminecadssob5[,1])))
+inf5_pre.mean  ##2.143
+inf5_pre.sd<-sd(as.numeric(as.character(ketaminecadssob5[,1])))
+inf5_pre.sd   ## 4.488
+inf5_post.mean<-mean(as.numeric(as.character(ketaminecadssob5[,2])))
+inf5_post.mean  ##2.143
+inf5_post.sd<-sd(as.numeric(as.character(ketaminecadssob5[,2])))
+inf5_post.sd    ##4.488
+
+diff_cadssob5<-as.numeric(as.character(ketaminecadssob5[,1]))-as.numeric(as.character(ketaminecadssob5[,2]))
+diff_cadssob5
+mean(diff_cadssob5)  ##0
+sd(diff_cadssob5)    ##0
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=NA
+t.test(diff_cadssob5, mu=0, alternative="greater", conf.level=0.95)
+
+## cadssob infusion6 ##
+ketaminecadssob6<-na.omit(ketaminecadssob[,14:15])
+nrow(ketaminecadssob6)  ##N=8
+
+inf6_pre.mean<-mean(as.numeric(as.character(ketaminecadssob6[,1])))
+inf6_pre.mean  ##1.75
+inf6_pre.sd<-sd(as.numeric(as.character(ketaminecadssob6[,1])))
+inf6_pre.sd   ## 3.808
+inf6_post.mean<-mean(as.numeric(as.character(ketaminecadssob6[,2])))
+inf6_post.mean  ##2.125
+inf6_post.sd<-sd(as.numeric(as.character(ketaminecadssob6[,2])))
+inf6_post.sd    ##4.454
+
+diff_cadssob6<-as.numeric(as.character(ketaminecadssob6[,1]))-as.numeric(as.character(ketaminecadssob6[,2]))
+diff_cadssob6
+mean(diff_cadssob6) ##-0.375
+sd(diff_cadssob6)   ##0.744
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.902
+t.test(diff_cadssob6, mu=0, alternative="greater", conf.level=0.95)
+
+## create data frame for output ##
+Infusion<-paste("CADSS_ob",1:6,sep="")
+length(Infusion)
+
+meanpreinf<-round(c(inf1_pre.mean,inf2_pre.mean,inf3_pre.mean,inf4_pre.mean,inf5_pre.mean,inf6_pre.mean),digits=1)
+sdpreinf<-round(c(inf1_pre.sd,inf2_pre.sd,inf3_pre.sd,inf4_pre.sd,inf5_pre.sd,inf6_pre.sd),digits=1)
+preinf<-paste(meanpreinf,"¡À",sdpreinf,sep="")
+
+meanpostinf<-round(c(inf1_post.mean,inf2_post.mean,inf3_post.mean,inf4_post.mean,inf5_post.mean,inf6_post.mean),digits=1)
+sdpostinf<-round(c(inf1_post.sd,inf2_post.sd,inf3_post.sd,inf4_post.sd,inf5_post.sd,inf6_post.sd),digits=1)
+twohrpostinf<-paste(meanpostinf,"¡À",sdpostinf,sep="")
+
+meandiff<-round(c(mean(diff_cadssob1),mean(diff_cadssob2),mean(diff_cadssob3),mean(diff_cadssob4),mean(diff_cadssob5),mean(diff_cadssob6)),digits=1)
+sddiff<-round(c(sd(diff_cadssob1),sd(diff_cadssob2),sd(diff_cadssob3),sd(diff_cadssob4),sd(diff_cadssob5),sd(diff_cadssob6)),digits=1)
+difference<-paste(meandiff,"¡À",sddiff,sep="")
+
+N<-c(6,7,rep(8,4))
+N
+
+p.value<-c(0.182,0.178,"NA","NA","NA","NA")
+
+cadssobdata<-data.frame(Infusion,preinf,twohrpostinf,difference,N,p.value)
+cadssobdata
+##write cadssob table##
+setwd("D:/Biostatistics/2016FallRA/output")
+write.csv(cadssobdata, file = "cadssob.csv")
+library(knitr)
+kable(cadssobdata, caption = "Table 9. CADSS_observer Secondary Outcomes")
+
+```
+

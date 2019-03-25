@@ -1,0 +1,169 @@
+---
+title: "noddi"
+author: "Yanan Ren"
+date: "2016Äê11ÔÂ9ÈÕ"
+output: word_document
+---
+
+```{r, echo=FALSE}
+setwd("D:/Biostatistics/2016FallRA/")
+noddi2<-read.csv("dataset/noddi_cdrs.csv", header=T, sep=',')
+attach(noddi2)
+View(noddi2)
+colnames(noddi2)
+
+##mean and sd##
+mean_noddi2<-as.data.frame(apply(noddi2[,2:ncol(noddi2)], 2, mean))
+mean_noddi2
+baseline_mean<-round(mean_noddi2[1:3,],3)
+baseline_mean
+ptx_trt_mean<-round(mean_noddi2[4:6,],3)
+ptx_trt_mean
+
+sd_noddi2<-as.data.frame(apply(noddi2[,2:ncol(noddi2)], 2, sd))
+sd_noddi2
+baseline_sd<-round(sd_noddi2[1:3,],3)
+baseline_sd
+ptx_trt_sd<-round(sd_noddi2[4:6,],3)
+ptx_trt_sd
+
+Baseline<-paste(baseline_mean,"¡À",baseline_sd, sep=" ")
+Baseline
+Post_treatment<-paste(ptx_trt_mean,"¡À",ptx_trt_sd, sep=" ")
+Post_treatment
+
+#names<-colnames(noddi2)
+#newname<-substr(names[2:22],10,nchar(names[2:22]))
+newname<-c("ficvf_cdrs_change_cluster1","ficvf_cdrs_change_cluster2","ficvf_cdrs_change_cluster3")
+
+#noddi2_table<-data.frame(newname,Baseline,Post_treatment)
+
+#library(knitr)
+#kable(noddi2_table, caption = "Table 1. Baseline and Post-treatment of #noddi2")
+```
+
+##2
+```{r, echo=FALSE}
+cdrs_prechange<-c(0.41,-0.14,0.29,0.24,0.675,0.78,0.59)
+bdidiff<-c(6,-2,-1,11,36,29,15)
+madrsdiff<-c(11,0,5,2,23,18,9)
+ficvf_cdrs_change_cluster1_diff<-noddi2[,5]-noddi2[,2]
+ficvf_cdrs_change_cluster2_diff<-noddi2[,6]-noddi2[,3]
+ficvf_cdrs_change_cluster3_diff<-noddi2[,7]-noddi2[,4]
+
+
+table.cor<-data.frame(cdrs_prechange, ficvf_cdrs_change_cluster1_diff,ficvf_cdrs_change_cluster2_diff,ficvf_cdrs_change_cluster3_diff,bdidiff,madrsdiff)
+View(table.cor)
+##one sample t-test##
+## one sample t-test for diff with Ho: mu=0 Ha=two.sided 
+##0.06610357 p-value = 0.174
+t.test(table.cor[,2], mu=0, alternative="two.sided", conf.level=0.95)
+
+##0.04372257 p-value = 0.3066
+t.test(table.cor[,3], mu=0, alternative="two.sided", conf.level=0.95)
+
+##0.04006743 p-value = 0.3246
+t.test(table.cor[,4], mu=0, alternative="two.sided", conf.level=0.95)
+
+
+
+diff<-round(c(0.06610357,0.04372257,0.04006743),3)
+p.value<-c("0.174","0.307","0.325")
+noddi2_table.2<-data.frame(newname,Baseline,Post_treatment,diff,p.value)
+
+library(knitr)
+kable(noddi2_table.2, caption = "Table 1. Baseline and Post-treatment of noddi")
+```
+
+
+##cdrs percent change##
+```{r,echo=FALSE}
+##plot##
+#newname<-c("R_ACC_WM","L_middle_frontal_WM","L_frontal_precentral_BA6_WM","R_parietal_WM","R_middle_frontal_WM","L_temporal_WM.nii.gz")
+
+plot(table.cor[,2],table.cor[,1], ylab="CDRS percent change", xlab="ficvf_cdrs_change_cluster1_diff")
+plot(table.cor[,3],table.cor[,1], ylab="CDRS percent change", xlab="ficvf_cdrs_change_cluster2_diff")
+plot(table.cor[,4],table.cor[,1], ylab="CDRS percent change", xlab="ficvf_cdrs_change_cluster3_diff")
+
+###correlation and pvalue
+cor.test(table.cor[,2],table.cor[,1])  
+##lab="R_ACC_WM_diff_diff";r=-0.8626537 ,p-value = 0.01245
+
+cor.test(table.cor[,3],table.cor[,1])
+##lab="L_middle_frontal_WM_diff", r=-0.6169489,p-value = 0.14
+
+cor.test(table.cor[,4],table.cor[,1])
+##lab="L_frontal_precentral_BA6_WM_diff";r=-0.6479139  ,p-value = 0.1156
+
+```
+
+##BDI absolute change##
+```{r,echo=FALSE}
+##plot##
+#newname<-c("R_ACC_WM","L_middle_frontal_WM","L_frontal_precentral_BA6_WM","R_parietal_WM","R_middle_frontal_WM","L_temporal_WM.nii.gz")
+
+plot(table.cor[,2],table.cor[,5], ylab="BDI absolute change", xlab="ficvf_cdrs_change_cluster1_diff")
+plot(table.cor[,3],table.cor[,5], ylab="BDI absolute change", xlab="ficvf_cdrs_change_cluster2_diff")
+plot(table.cor[,4],table.cor[,5], ylab="BDI absolute change", xlab="ficvf_cdrs_change_cluster3_diff")
+
+###correlation and pvalue
+cor.test(table.cor[,2],table.cor[,5])  
+##lab="R_ACC_WM_diff_diff";r=-0.6805328  ,p-value = 0.09244
+
+cor.test(table.cor[,3],table.cor[,5])
+##lab="L_middle_frontal_WM_diff", r=-0.4508335,p-value = 0.31
+
+cor.test(table.cor[,4],table.cor[,5])
+##lab="L_frontal_precentral_BA6_WM_diff";r=-0.5233986  ,p-value = 0.228
+
+```
+
+##MADRS absolute change##
+```{r,echo=FALSE}
+##plot##
+#newname<-c("R_ACC_WM","L_middle_frontal_WM","L_frontal_precentral_BA6_WM","R_parietal_WM","R_middle_frontal_WM","L_temporal_WM.nii.gz")
+
+plot(table.cor[,2],table.cor[,6], ylab="MADRS absolute change", xlab="ficvf_cdrs_change_cluster1_diff")
+plot(table.cor[,3],table.cor[,6], ylab="MADRS absolute change", xlab="ficvf_cdrs_change_cluster2_diff")
+plot(table.cor[,4],table.cor[,6], ylab="MADRS absolute change", xlab="ficvf_cdrs_change_cluster3_diff")
+
+###correlation and pvalue
+cor.test(table.cor[,2],table.cor[,6])  
+##lab="R_ACC_WM_diff_diff";r=-0.7830055 ,p-value = 0.03734
+
+cor.test(table.cor[,3],table.cor[,6])
+##lab="L_middle_frontal_WM_diff", r=-0.5554706 ,p-value = 0.1955
+
+cor.test(table.cor[,4],table.cor[,6])
+##lab="L_frontal_precentral_BA6_WM_diff";r=-0.6234553  ,p-value = 0.1347
+
+```
+
+
+```{r,echo=FALSE}
+ficvf_cdrs_change_cluster1<-data.frame(grid=noddi2[,1],pre=noddi2[,2],post=noddi2[,5])
+ficvf_cdrs_change_cluster2<-data.frame(grid=noddi2[,1],pre=noddi2[,3],post=noddi2[,6])
+ficvf_cdrs_change_cluster3<-data.frame(grid=noddi2[,1],pre=noddi2[,4],post=noddi2[,7])
+
+
+## long dataset## 
+library(reshape2)
+library(ggplot2)
+ficvf_cdrs_change_cluster3_long <- melt(ficvf_cdrs_change_cluster3,
+                           id.vars = "grid",
+                           measure.vars = c("pre","post"),
+                           variable.name = "condition")
+as.numeric(ficvf_cdrs_change_cluster3_long$value)
+ggplot(ficvf_cdrs_change_cluster3_long, aes(x=condition, y=value, group=grid, colour=factor(grid))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","post"))+
+  labs(x = "Condition",
+       y = "ficvf_cdrs_change_cluster3",
+       title = "Baseline and  post-treatment for ficvf_cdrs_change_cluster3")+
+scale_color_manual(values = c("#1C86EE", "#1C86EE", "#1C86EE", "#1C86EE", "#FF7F00", "#FF7F00", "#FF7F00"), guide = FALSE) + 
+    theme_bw()
+
+
+```
+

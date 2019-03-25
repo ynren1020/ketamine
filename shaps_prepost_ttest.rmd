@@ -1,0 +1,180 @@
+---
+title: "SHAPS_prepost_ttest"
+author: "Yanan Ren"
+date: "2016Äê10ÔÂ5ÈÕ"
+output: word_document
+---
+
+```{r results = 'asis',echo=FALSE} 
+## read dataset ##
+setwd("D:/Biostatistics/2016FallRA/")
+ketamine<-read.csv("dataset/ketna.csv", header=T, sep=',')
+attach(ketamine)
+nrow(ketamine)
+ncol(ketamine)
+
+
+##shaps subset ##
+
+shaps<-as.character(c("grid","bl_shaps_total","ptx_shaps_total","pre_inf1_shaps_total","X2hr_inf1_shaps_total","pre_inf2_shaps_total","X2hr_inf2_shaps_total","pre_inf3_shaps_total","X2hr_inf3_shaps_total","pre_inf4_shaps_total","X2hr_inf4_shaps_total","pre_inf5_shaps_total","X2hr_inf5_shaps_total","pre_inf6_shaps_total","X2hr_inf6_shaps_total"))
+ketamineshaps<-ketamine[shaps]
+
+ncol(ketamineshaps)
+nrow(ketamineshaps)
+head(ketamineshaps)
+#ketamineshaps[ketamineshaps[,]=="NULL"]<-NA
+View(ketamineshaps)
+
+## shaps infusion 1 ##
+ketamineshaps1<-na.omit(ketamineshaps[,4:5])
+nrow(ketamineshaps1)  ##N=7
+
+inf1_pre.mean<-mean(as.numeric(as.character(ketamineshaps1[,1])))
+inf1_pre.mean  ##6.571
+inf1_pre.sd<-sd(as.numeric(as.character(ketamineshaps1[,1])))
+inf1_pre.sd   ## 3.599
+inf1_post.mean<-mean(as.numeric(as.character(ketamineshaps1[,2])))
+inf1_post.mean  ##5.000
+inf1_post.sd<-sd(as.numeric(as.character(ketamineshaps1[,2])))
+inf1_post.sd    ##4.830
+
+diff_shaps1<-as.numeric(as.character(ketamineshaps1[,1]))-as.numeric(as.character(ketamineshaps1[,2]))
+diff_shaps1
+mean(diff_shaps1)  #1.571
+sd(diff_shaps1)    #2.760
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.091
+t.test(diff_shaps1, mu=0, alternative="greater", conf.level=0.95)
+
+## shaps infusion2 ##
+ketamineshaps2<-na.omit(ketamineshaps[,6:7])
+nrow(ketamineshaps2)  ##N=7
+
+inf2_pre.mean<-mean(as.numeric(as.character(ketamineshaps2[,1])))
+inf2_pre.mean  ##6.143
+inf2_pre.sd<-sd(as.numeric(as.character(ketamineshaps2[,1])))
+inf2_pre.sd   ## 4.880
+inf2_post.mean<-mean(as.numeric(as.character(ketamineshaps2[,2])))
+inf2_post.mean  ##5.429
+inf2_post.sd<-sd(as.numeric(as.character(ketamineshaps2[,2])))
+inf2_post.sd    ##4.860
+
+diff_shaps2<-as.numeric(as.character(ketamineshaps2[,1]))-as.numeric(as.character(ketamineshaps2[,2]))
+diff_shaps2
+mean(diff_shaps2) #0.714
+sd(diff_shaps2)   #1.704
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.155
+t.test(diff_shaps2, mu=0, alternative="greater", conf.level=0.95)
+
+## shaps infusion3 ##
+ketamineshaps3<-na.omit(ketamineshaps[,8:9])
+nrow(ketamineshaps3)  ##N=7
+
+inf3_pre.mean<-mean(as.numeric(as.character(ketamineshaps3[,1])))
+inf3_pre.mean  ##8.429
+inf3_pre.sd<-sd(as.numeric(as.character(ketamineshaps3[,1])))
+inf3_pre.sd   ## 5.062
+inf3_post.mean<-mean(as.numeric(as.character(ketamineshaps3[,2])))
+inf3_post.mean  ##5.429
+inf3_post.sd<-sd(as.numeric(as.character(ketamineshaps3[,2])))
+inf3_post.sd    ##4.504
+
+diff_shaps3<-as.numeric(as.character(ketamineshaps3[,1]))-as.numeric(as.character(ketamineshaps3[,2]))
+diff_shaps3
+mean(diff_shaps3)  #3.000
+sd(diff_shaps3)   #3.916
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.045
+t.test(diff_shaps3, mu=0, alternative="greater", conf.level=0.95)
+
+## shaps infusion4 ##
+ketamineshaps4<-na.omit(ketamineshaps[,10:11])
+nrow(ketamineshaps4)  ##N=7
+
+inf4_pre.mean<-mean(as.numeric(as.character(ketamineshaps4[,1])))
+inf4_pre.mean  ##5.857
+inf4_pre.sd<-sd(as.numeric(as.character(ketamineshaps4[,1])))
+inf4_pre.sd   ## 4.880
+inf4_post.mean<-mean(as.numeric(as.character(ketamineshaps4[,2])))
+inf4_post.mean  ##5.429
+inf4_post.sd<-sd(as.numeric(as.character(ketamineshaps4[,2])))
+inf4_post.sd    ##5.192
+
+diff_shaps4<-as.numeric(as.character(ketamineshaps4[,1]))-as.numeric(as.character(ketamineshaps4[,2]))
+diff_shaps4
+mean(diff_shaps4) #0.429
+sd(diff_shaps4)   #1.272
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.204
+t.test(diff_shaps4, mu=0, alternative="greater", conf.level=0.95)
+
+## shaps infusion5 ##
+ketamineshaps5<-na.omit(ketamineshaps[,12:13])
+nrow(ketamineshaps5)  ##N=7
+
+inf5_pre.mean<-mean(as.numeric(as.character(ketamineshaps5[,1])))
+inf5_pre.mean  ##4.714
+inf5_pre.sd<-sd(as.numeric(as.character(ketamineshaps5[,1])))
+inf5_pre.sd   ## 5.090
+inf5_post.mean<-mean(as.numeric(as.character(ketamineshaps5[,2])))
+inf5_post.mean  ##4.714
+inf5_post.sd<-sd(as.numeric(as.character(ketamineshaps5[,2])))
+inf5_post.sd    ##4.855
+
+diff_shaps5<-as.numeric(as.character(ketamineshaps5[,1]))-as.numeric(as.character(ketamineshaps5[,2]))
+diff_shaps5
+mean(diff_shaps5)  ##0.000
+sd(diff_shaps5)    ##0.577
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.5
+t.test(diff_shaps5, mu=0, alternative="greater", conf.level=0.95)
+
+## shaps infusion6 ##
+ketamineshaps6<-na.omit(ketamineshaps[,14:15])
+nrow(ketamineshaps6)  ##N=8
+
+inf6_pre.mean<-mean(as.numeric(as.character(ketamineshaps6[,1])))
+inf6_pre.mean  ##5.375
+inf6_pre.sd<-sd(as.numeric(as.character(ketamineshaps6[,1])))
+inf6_pre.sd   ## 4.596
+inf6_post.mean<-mean(as.numeric(as.character(ketamineshaps6[,2])))
+inf6_post.mean  ##5.000
+inf6_post.sd<-sd(as.numeric(as.character(ketamineshaps6[,2])))
+inf6_post.sd    ##4.751
+
+diff_shaps6<-as.numeric(as.character(ketamineshaps6[,1]))-as.numeric(as.character(ketamineshaps6[,2]))
+diff_shaps6
+mean(diff_shaps6) ##0.375
+sd(diff_shaps6)   ##0.518
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.040
+t.test(diff_shaps6, mu=0, alternative="greater", conf.level=0.95)
+
+## create data frame for output ##
+Infusion<-paste("SHAPS",1:6,sep="")
+length(Infusion)
+
+meanpreinf<-round(c(inf1_pre.mean,inf2_pre.mean,inf3_pre.mean,inf4_pre.mean,inf5_pre.mean,inf6_pre.mean),digits=1)
+sdpreinf<-round(c(inf1_pre.sd,inf2_pre.sd,inf3_pre.sd,inf4_pre.sd,inf5_pre.sd,inf6_pre.sd),digits=1)
+preinf<-paste(meanpreinf,"¡À",sdpreinf,sep="")
+
+meanpostinf<-round(c(inf1_post.mean,inf2_post.mean,inf3_post.mean,inf4_post.mean,inf5_post.mean,inf6_post.mean),digits=1)
+sdpostinf<-round(c(inf1_post.sd,inf2_post.sd,inf3_post.sd,inf4_post.sd,inf5_post.sd,inf6_post.sd),digits=1)
+twohrpostinf<-paste(meanpostinf,"¡À",sdpostinf,sep="")
+
+meandiff<-round(c(mean(diff_shaps1),mean(diff_shaps2),mean(diff_shaps3),mean(diff_shaps4),mean(diff_shaps5),mean(diff_shaps6)),digits=1)
+sddiff<-round(c(sd(diff_shaps1),sd(diff_shaps2),sd(diff_shaps3),sd(diff_shaps4),sd(diff_shaps5),sd(diff_shaps6)),digits=1)
+difference<-paste(meandiff,"¡À",sddiff,sep="")
+
+N<-c(rep(7,5),8)
+N
+
+p.value<-c(0.091,0.155,0.045,0.204,0.500,0.040)
+
+shapsdata<-data.frame(Infusion,preinf,twohrpostinf,difference,N,p.value)
+shapsdata
+##write shaps table##
+#setwd("D:/Biostatistics/2016FallRA/output")
+#write.csv(shapsdata, file = "shaps.csv")
+library(knitr)
+kable(shapsdata, caption = "Table 5. SHAPS Secondary Outcomes")
+
+```
+
+
+

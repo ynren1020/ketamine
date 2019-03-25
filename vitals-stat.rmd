@@ -1,0 +1,375 @@
+---
+title: "vitals-stat"
+author: "Yanan Ren"
+date: "2017Äê1ÔÂ4ÈÕ"
+output: word_document
+---
+##read dataset##
+```{r, echo=FALSE}
+setwd("D:/Biostatistics/2016FallRA/")
+vitals<-read.csv("dataset/ket_vitals_r.csv", header=T, sep=',')
+attach(vitals)
+View(vitals)
+```
+
+##subset vitals by measurement and infusion##
+```{r, echo=FALSE}
+##sbp##
+sbp<-vitals[,grep("sbp",colnames(vitals))]
+sbp
+##inf1##
+sbp_inf1<-sbp[,grep("inf1",colnames(sbp))]
+sbp_inf1
+sbp_inf1_change<-sbp_inf1[,-1]-sbp_inf1[,1]
+sbp_inf1_change
+sbp_inf1_change_max<-apply(sbp_inf1_change,1,max,na.rm=T)
+sbp_inf1_change_max
+sbp_inf1_mean<-round(mean(sbp_inf1_change_max),3) #12.875
+sbp_inf1_sd<-round(sd(sbp_inf1_change_max),3)   #12.4032
+sbp_inf1_stat<-paste(sbp_inf1_mean,"¡À",sbp_inf1_sd)
+##inf2##
+sbp_inf2<-sbp[,grep("inf2",colnames(sbp))]
+sbp_inf2
+sbp_inf2_change<-sbp_inf2[,-1]-sbp_inf2[,1]
+sbp_inf2_change
+sbp_inf2_change_max<-apply(sbp_inf2_change,1,max,na.rm=T)
+sbp_inf2_change_max
+sbp_inf2_mean<-round(mean(sbp_inf2_change_max),3) #13.625
+sbp_inf2_sd<-round(sd(sbp_inf2_change_max),3)  #9.797
+sbp_inf2_stat<-paste(sbp_inf2_mean,"¡À",sbp_inf2_sd)
+##inf3##
+sbp_inf3<-sbp[,grep("inf3",colnames(sbp))]
+sbp_inf3
+sbp_inf3_change<-sbp_inf3[,-1]-sbp_inf3[,1]
+sbp_inf3_change
+sbp_inf3_change_max<-apply(sbp_inf3_change,1,max,na.rm=T)
+sbp_inf3_change_max
+sbp_inf3_mean<-round(mean(sbp_inf3_change_max),3) #11.75
+sbp_inf3_sd<-round(sd(sbp_inf3_change_max),3)  #7.166
+sbp_inf3_stat<-paste(sbp_inf3_mean,"¡À",sbp_inf3_sd)
+##inf4##
+sbp_inf4<-sbp[,grep("inf4",colnames(sbp))]
+sbp_inf4
+sbp_inf4_change<-sbp_inf4[,-1]-sbp_inf4[,1]
+sbp_inf4_change
+sbp_inf4_change_max<-apply(sbp_inf4_change,1,max,na.rm=T)
+sbp_inf4_change_max
+sbp_inf4_mean<-round(mean(sbp_inf4_change_max),3) #16.125
+sbp_inf4_sd<-round(sd(sbp_inf4_change_max),3)  #8.999
+sbp_inf4_stat<-paste(sbp_inf4_mean,"¡À",sbp_inf4_sd)
+##inf5##
+sbp_inf5<-sbp[,grep("inf5",colnames(sbp))]
+sbp_inf5
+sbp_inf5_change<-sbp_inf5[,-1]-sbp_inf5[,1]
+sbp_inf5_change
+sbp_inf5_change_max<-apply(sbp_inf5_change,1,max,na.rm=T)
+sbp_inf5_change_max
+sbp_inf5_mean<-round(mean(sbp_inf5_change_max),3) #15.125
+sbp_inf5_sd<-round(sd(sbp_inf5_change_max),3)  #12.922
+sbp_inf5_stat<-paste(sbp_inf5_mean,"¡À",sbp_inf5_sd)
+##inf6##
+sbp_inf6<-sbp[,grep("inf6",colnames(sbp))]
+sbp_inf6
+sbp_inf6_change<-sbp_inf6[,-1]-sbp_inf6[,1]
+sbp_inf6_change
+sbp_inf6_change_max<-apply(sbp_inf6_change,1,max,na.rm=T)
+sbp_inf6_change_max
+sbp_inf6_mean<-round(mean(sbp_inf6_change_max),3) #16.125
+sbp_inf6_sd<-round(sd(sbp_inf6_change_max),3)  #7.376
+sbp_inf6_stat<-paste(sbp_inf6_mean,"¡À",sbp_inf6_sd)
+##sbp total##
+sbp_stat<-c(sbp_inf1_stat,sbp_inf2_stat,sbp_inf3_stat,sbp_inf4_stat,sbp_inf5_stat,sbp_inf6_stat)
+
+```
+
+##dbp#
+```{r,echo=FALSE}
+dbp<-vitals[,grep("dbp",colnames(vitals))]
+dbp
+##inf1##
+dbp_inf1<-dbp[,grep("inf1",colnames(dbp))]
+dbp_inf1
+dbp_inf1_change<-dbp_inf1[,-1]-dbp_inf1[,1]
+dbp_inf1_change
+dbp_inf1_change_max<-apply(dbp_inf1_change,1,max,na.rm=T)
+dbp_inf1_change_max
+dbp_inf1_mean<-round(mean(dbp_inf1_change_max),3) #12.875
+dbp_inf1_sd<-round(sd(dbp_inf1_change_max),3)   #12.4032
+dbp_inf1_stat<-paste(dbp_inf1_mean,"¡À",dbp_inf1_sd)
+##inf2##
+dbp_inf2<-dbp[,grep("inf2",colnames(dbp))]
+dbp_inf2
+dbp_inf2_change<-dbp_inf2[,-1]-dbp_inf2[,1]
+dbp_inf2_change
+dbp_inf2_change_max<-apply(dbp_inf2_change,1,max,na.rm=T)
+dbp_inf2_change_max
+dbp_inf2_mean<-round(mean(dbp_inf2_change_max),3) #13.625
+dbp_inf2_sd<-round(sd(dbp_inf2_change_max),3)  #9.797
+dbp_inf2_stat<-paste(dbp_inf2_mean,"¡À",dbp_inf2_sd)
+##inf3##
+dbp_inf3<-dbp[,grep("inf3",colnames(dbp))]
+dbp_inf3
+dbp_inf3_change<-dbp_inf3[,-1]-dbp_inf3[,1]
+dbp_inf3_change
+dbp_inf3_change_max<-apply(dbp_inf3_change,1,max,na.rm=T)
+dbp_inf3_change_max
+dbp_inf3_mean<-round(mean(dbp_inf3_change_max),3) #11.75
+dbp_inf3_sd<-round(sd(dbp_inf3_change_max),3)  #7.166
+dbp_inf3_stat<-paste(dbp_inf3_mean,"¡À",dbp_inf3_sd)
+##inf4##
+dbp_inf4<-dbp[,grep("inf4",colnames(dbp))]
+dbp_inf4
+dbp_inf4_change<-dbp_inf4[,-1]-dbp_inf4[,1]
+dbp_inf4_change
+dbp_inf4_change_max<-apply(dbp_inf4_change,1,max,na.rm=T)
+dbp_inf4_change_max
+dbp_inf4_mean<-round(mean(dbp_inf4_change_max),3) #16.125
+dbp_inf4_sd<-round(sd(dbp_inf4_change_max),3)  #8.999
+dbp_inf4_stat<-paste(dbp_inf4_mean,"¡À",dbp_inf4_sd)
+##inf5##
+dbp_inf5<-dbp[,grep("inf5",colnames(dbp))]
+dbp_inf5
+dbp_inf5_change<-dbp_inf5[,-1]-dbp_inf5[,1]
+dbp_inf5_change
+dbp_inf5_change_max<-apply(dbp_inf5_change,1,max,na.rm=T)
+dbp_inf5_change_max
+dbp_inf5_mean<-round(mean(dbp_inf5_change_max),3) #15.125
+dbp_inf5_sd<-round(sd(dbp_inf5_change_max),3)  #12.922
+dbp_inf5_stat<-paste(dbp_inf5_mean,"¡À",dbp_inf5_sd)
+##inf6##
+dbp_inf6<-dbp[,grep("inf6",colnames(dbp))]
+dbp_inf6
+dbp_inf6_change<-dbp_inf6[,-1]-dbp_inf6[,1]
+dbp_inf6_change
+dbp_inf6_change_max<-apply(dbp_inf6_change,1,max,na.rm=T)
+dbp_inf6_change_max
+dbp_inf6_mean<-round(mean(dbp_inf6_change_max),3) #16.125
+dbp_inf6_sd<-round(sd(dbp_inf6_change_max),3)  #7.376
+dbp_inf6_stat<-paste(dbp_inf6_mean,"¡À",dbp_inf6_sd)
+##dbp total##
+dbp_stat<-c(dbp_inf1_stat,dbp_inf2_stat,dbp_inf3_stat,dbp_inf4_stat,dbp_inf5_stat,dbp_inf6_stat)
+
+```
+
+##pr##
+```{r,echo=FALSE}
+pr<-vitals[,grep("_pr",colnames(vitals))]
+pr
+##inf1##
+pr_inf1<-pr[,grep("inf1",colnames(pr))]
+pr_inf1
+pr_inf1_change<-pr_inf1[,-1]-pr_inf1[,1]
+pr_inf1_change
+pr_inf1_change_max<-apply(pr_inf1_change,1,max,na.rm=T)
+pr_inf1_change_max
+pr_inf1_mean<-round(mean(pr_inf1_change_max),3) #12.875
+pr_inf1_sd<-round(sd(pr_inf1_change_max),3)   #12.4032
+pr_inf1_stat<-paste(pr_inf1_mean,"¡À",pr_inf1_sd)
+##inf2##
+pr_inf2<-pr[,grep("inf2",colnames(pr))]
+pr_inf2
+pr_inf2_change<-pr_inf2[,-1]-pr_inf2[,1]
+pr_inf2_change
+pr_inf2_change_max<-apply(pr_inf2_change,1,max,na.rm=T)
+pr_inf2_change_max
+pr_inf2_mean<-round(mean(pr_inf2_change_max),3) #13.625
+pr_inf2_sd<-round(sd(pr_inf2_change_max),3)  #9.797
+pr_inf2_stat<-paste(pr_inf2_mean,"¡À",pr_inf2_sd)
+##inf3##
+pr_inf3<-pr[,grep("inf3",colnames(pr))]
+pr_inf3
+pr_inf3_change<-pr_inf3[,-1]-pr_inf3[,1]
+pr_inf3_change
+pr_inf3_change_max<-apply(pr_inf3_change,1,max,na.rm=T)
+pr_inf3_change_max
+pr_inf3_mean<-round(mean(pr_inf3_change_max),3) #11.75
+pr_inf3_sd<-round(sd(pr_inf3_change_max),3)  #7.166
+pr_inf3_stat<-paste(pr_inf3_mean,"¡À",pr_inf3_sd)
+##inf4##
+pr_inf4<-pr[,grep("inf4",colnames(pr))]
+pr_inf4
+pr_inf4_change<-pr_inf4[,-1]-pr_inf4[,1]
+pr_inf4_change
+pr_inf4_change_max<-apply(pr_inf4_change,1,max,na.rm=T)
+pr_inf4_change_max
+pr_inf4_mean<-round(mean(pr_inf4_change_max),3) #16.125
+pr_inf4_sd<-round(sd(pr_inf4_change_max),3)  #8.999
+pr_inf4_stat<-paste(pr_inf4_mean,"¡À",pr_inf4_sd)
+##inf5##
+pr_inf5<-pr[,grep("inf5",colnames(pr))]
+pr_inf5
+pr_inf5_change<-pr_inf5[,-1]-pr_inf5[,1]
+pr_inf5_change
+pr_inf5_change_max<-apply(pr_inf5_change,1,max,na.rm=T)
+pr_inf5_change_max
+pr_inf5_mean<-round(mean(pr_inf5_change_max),3) #15.125
+pr_inf5_sd<-round(sd(pr_inf5_change_max),3)  #12.922
+pr_inf5_stat<-paste(pr_inf5_mean,"¡À",pr_inf5_sd)
+##inf6##
+pr_inf6<-pr[,grep("inf6",colnames(pr))]
+pr_inf6
+pr_inf6_change<-pr_inf6[,-1]-pr_inf6[,1]
+pr_inf6_change
+pr_inf6_change_max<-apply(pr_inf6_change,1,max,na.rm=T)
+pr_inf6_change_max
+pr_inf6_mean<-round(mean(pr_inf6_change_max),3) #16.125
+pr_inf6_sd<-round(sd(pr_inf6_change_max),3)  #7.376
+pr_inf6_stat<-paste(pr_inf6_mean,"¡À",pr_inf6_sd)
+##pr total##
+pr_stat<-c(pr_inf1_stat,pr_inf2_stat,pr_inf3_stat,pr_inf4_stat,pr_inf5_stat,pr_inf6_stat)
+```
+
+##rr##
+```{r,echo=FALSE}
+rr<-vitals[,grep("rr",colnames(vitals))]
+rr
+##inf1##
+rr_inf1<-rr[,grep("inf1",colnames(rr))]
+rr_inf1
+rr_inf1_change<-rr_inf1[,-1]-rr_inf1[,1]
+rr_inf1_change
+rr_inf1_change_max<-apply(rr_inf1_change,1,max,na.rm=T)
+rr_inf1_change_max
+rr_inf1_mean<-round(mean(rr_inf1_change_max),3) #12.875
+rr_inf1_sd<-round(sd(rr_inf1_change_max),3)   #12.4032
+rr_inf1_stat<-paste(rr_inf1_mean,"¡À",rr_inf1_sd)
+##inf2##
+rr_inf2<-rr[,grep("inf2",colnames(rr))]
+rr_inf2
+rr_inf2_change<-rr_inf2[,-1]-rr_inf2[,1]
+rr_inf2_change
+rr_inf2_change_max<-apply(rr_inf2_change,1,max,na.rm=T)
+rr_inf2_change_max
+rr_inf2_mean<-round(mean(rr_inf2_change_max),3) #13.625
+rr_inf2_sd<-round(sd(rr_inf2_change_max),3)  #9.797
+rr_inf2_stat<-paste(rr_inf2_mean,"¡À",rr_inf2_sd)
+##inf3##
+rr_inf3<-rr[,grep("inf3",colnames(rr))]
+rr_inf3
+rr_inf3_change<-rr_inf3[,-1]-rr_inf3[,1]
+rr_inf3_change
+rr_inf3_change_max<-apply(rr_inf3_change,1,max,na.rm=T)
+rr_inf3_change_max
+rr_inf3_mean<-round(mean(rr_inf3_change_max),3) #11.75
+rr_inf3_sd<-round(sd(rr_inf3_change_max),3)  #7.166
+rr_inf3_stat<-paste(rr_inf3_mean,"¡À",rr_inf3_sd)
+##inf4##
+rr_inf4<-rr[,grep("inf4",colnames(rr))]
+rr_inf4
+rr_inf4_change<-rr_inf4[,-1]-rr_inf4[,1]
+rr_inf4_change
+rr_inf4_change_max<-apply(rr_inf4_change,1,max,na.rm=T)
+rr_inf4_change_max
+rr_inf4_mean<-round(mean(rr_inf4_change_max),3) #16.125
+rr_inf4_sd<-round(sd(rr_inf4_change_max),3)  #8.999
+rr_inf4_stat<-paste(rr_inf4_mean,"¡À",rr_inf4_sd)
+##inf5##
+rr_inf5<-rr[,grep("inf5",colnames(rr))]
+rr_inf5
+rr_inf5_change<-rr_inf5[,-1]-rr_inf5[,1]
+rr_inf5_change
+rr_inf5_change_max<-apply(rr_inf5_change,1,max,na.rm=T)
+rr_inf5_change_max
+rr_inf5_mean<-round(mean(rr_inf5_change_max),3) #15.125
+rr_inf5_sd<-round(sd(rr_inf5_change_max),3)  #12.922
+rr_inf5_stat<-paste(rr_inf5_mean,"¡À",rr_inf5_sd)
+##inf6##
+rr_inf6<-rr[,grep("inf6",colnames(rr))]
+rr_inf6
+rr_inf6_change<-rr_inf6[,-1]-rr_inf6[,1]
+rr_inf6_change
+rr_inf6_change_max<-apply(rr_inf6_change,1,max,na.rm=T)
+rr_inf6_change_max
+rr_inf6_mean<-round(mean(rr_inf6_change_max),3) #16.125
+rr_inf6_sd<-round(sd(rr_inf6_change_max),3)  #7.376
+rr_inf6_stat<-paste(rr_inf6_mean,"¡À",rr_inf6_sd)
+##rr total##
+rr_stat<-c(rr_inf1_stat,rr_inf2_stat,rr_inf3_stat,rr_inf4_stat,rr_inf5_stat,rr_inf6_stat)
+
+```
+
+##spo2##
+```{r,echo=FALSE}
+spo2<-vitals[,grep("spo2",colnames(vitals))]
+spo2
+##inf1##
+spo2_inf1<-spo2[,grep("inf1",colnames(spo2))]
+spo2_inf1
+spo2_inf1_change<-spo2_inf1[,-1]-spo2_inf1[,1]
+spo2_inf1_change
+spo2_inf1_change_max<-apply(spo2_inf1_change,1,max,na.rm=T)
+spo2_inf1_change_max
+spo2_inf1_mean<-round(mean(spo2_inf1_change_max),3) #12.875
+spo2_inf1_sd<-round(sd(spo2_inf1_change_max),3)   #12.4032
+spo2_inf1_stat<-paste(spo2_inf1_mean,"¡À",spo2_inf1_sd)
+##inf2##
+spo2_inf2<-spo2[,grep("inf2",colnames(spo2))]
+spo2_inf2
+spo2_inf2_change<-spo2_inf2[,-1]-spo2_inf2[,1]
+spo2_inf2_change
+spo2_inf2_change_max<-apply(spo2_inf2_change,1,max,na.rm=T)
+spo2_inf2_change_max
+spo2_inf2_mean<-round(mean(spo2_inf2_change_max),3) #13.625
+spo2_inf2_sd<-round(sd(spo2_inf2_change_max),3)  #9.797
+spo2_inf2_stat<-paste(spo2_inf2_mean,"¡À",spo2_inf2_sd)
+##inf3##
+spo2_inf3<-spo2[,grep("inf3",colnames(spo2))]
+spo2_inf3
+spo2_inf3_change<-spo2_inf3[,-1]-spo2_inf3[,1]
+spo2_inf3_change
+spo2_inf3_change_max<-apply(spo2_inf3_change,1,max,na.rm=T)
+spo2_inf3_change_max
+spo2_inf3_mean<-round(mean(spo2_inf3_change_max),3) #11.75
+spo2_inf3_sd<-round(sd(spo2_inf3_change_max),3)  #7.166
+spo2_inf3_stat<-paste(spo2_inf3_mean,"¡À",spo2_inf3_sd)
+##inf4##
+spo2_inf4<-spo2[,grep("inf4",colnames(spo2))]
+spo2_inf4
+spo2_inf4_change<-spo2_inf4[,-1]-spo2_inf4[,1]
+spo2_inf4_change
+spo2_inf4_change_max<-apply(spo2_inf4_change,1,max,na.rm=T)
+spo2_inf4_change_max
+spo2_inf4_mean<-round(mean(spo2_inf4_change_max),3) #16.125
+spo2_inf4_sd<-round(sd(spo2_inf4_change_max),3)  #8.999
+spo2_inf4_stat<-paste(spo2_inf4_mean,"¡À",spo2_inf4_sd)
+##inf5##
+spo2_inf5<-spo2[,grep("inf5",colnames(spo2))]
+spo2_inf5
+spo2_inf5_change<-spo2_inf5[,-1]-spo2_inf5[,1]
+spo2_inf5_change
+spo2_inf5_change_max<-apply(spo2_inf5_change,1,max,na.rm=T)
+spo2_inf5_change_max
+spo2_inf5_mean<-round(mean(spo2_inf5_change_max),3) #15.125
+spo2_inf5_sd<-round(sd(spo2_inf5_change_max),3)  #12.922
+spo2_inf5_stat<-paste(spo2_inf5_mean,"¡À",spo2_inf5_sd)
+##inf6##
+spo2_inf6<-spo2[,grep("inf6",colnames(spo2))]
+spo2_inf6
+spo2_inf6_change<-spo2_inf6[,-1]-spo2_inf6[,1]
+spo2_inf6_change
+spo2_inf6_change_max<-apply(spo2_inf6_change,1,max,na.rm=T)
+spo2_inf6_change_max
+spo2_inf6_mean<-round(mean(spo2_inf6_change_max),3) #16.125
+spo2_inf6_sd<-round(sd(spo2_inf6_change_max),3)  #7.376
+spo2_inf6_stat<-paste(spo2_inf6_mean,"¡À",spo2_inf6_sd)
+##spo2 total##
+spo2_stat<-c(spo2_inf1_stat,spo2_inf2_stat,spo2_inf3_stat,spo2_inf4_stat,spo2_inf5_stat,spo2_inf6_stat)
+
+```
+
+##total stat##
+```{r,echo=FALSE}
+Infusion<-c("inf1","inf2","inf3","inf4","inf5","inf6")
+vital_stat<-data.frame(Infusion,sbp_stat,dbp_stat,pr_stat,rr_stat,spo2_stat)
+vital_stat
+library(plyr)
+vital_stat<-rename(vital_stat, c("sbp_stat"="SBP", "dbp_stat"="DBP","pr_stat"="PR","rr_stat"="RR","spo2_stat"="SPO2"))
+
+
+##write tepsanti table##
+#setwd("D:/Biostatistics/2016FallRA/output")
+#write.csv(tepsantidata, file = "tepsanti.csv")
+library(knitr)
+kable(vital_stat, caption = "Table 1. Vitals Summary Statistics")
+
+```

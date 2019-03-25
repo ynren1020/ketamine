@@ -1,0 +1,138 @@
+---
+title: "fMRI"
+author: "Yanan Ren"
+date: "2016Äê11ÔÂ9ÈÕ"
+output: word_document
+---
+
+```{r, echo=FALSE}
+setwd("D:/Biostatistics/2016FallRA/")
+fMRI<-read.csv("dataset/ketamine_clusters_r.csv", header=T, sep=',')
+attach(fMRI)
+View(fMRI)
+
+##mean and sd##
+mean_fMRI<-as.data.frame(apply(fMRI[,2:ncol(fMRI)], 2, mean))
+mean_fMRI
+baseline_mean<-round(mean_fMRI[1:21,],3)
+baseline_mean
+ptx_trt_mean<-round(mean_fMRI[22:42,],3)
+ptx_trt_mean
+
+sd_fMRI<-as.data.frame(apply(fMRI[,2:ncol(fMRI)], 2, sd))
+sd_fMRI
+baseline_sd<-round(sd_fMRI[1:21,],3)
+baseline_sd
+ptx_trt_sd<-round(sd_fMRI[22:42,],3)
+ptx_trt_sd
+
+Baseline<-paste(baseline_mean,"¡À",baseline_sd, sep=" ")
+Baseline
+Post_treatment<-paste(ptx_trt_mean,"¡À",ptx_trt_sd, sep=" ")
+Post_treatment
+
+names<-colnames(fMRI)
+newname<-substr(names[2:22],10,nchar(names[2:22]))
+
+fMRI_table<-data.frame(newname,Baseline,Post_treatment)
+
+library(knitr)
+kable(fMRI_table, caption = "Table 1. Baseline and Post-treatment of fMRI")
+```
+
+##2
+```{r, echo=FALSE}
+cdrs_prechange<-c(0.41,-0.14,0.29,0.30,0.24,0.675,0.78,0.59)
+L_hipp_L_insula_diff<-fMRI[,23]-fMRI[,2]
+L_hipp_ACC_diff<-fMRI[,24]-fMRI[,3]
+L_postcing_Lfusiform_diff<-fMRI[,25]-fMRI[,4]
+L_postcing_precentral_postcentral_diff<-fMRI[,26]-fMRI[,5]
+L_postcing_R_frontal_pole_diff<-fMRI[,27]-fMRI[,6]
+R_rostralACC_subcallosal_diff<-fMRI[,28]-fMRI[,7]
+R_rostralACC_frontal_pole_diff<-fMRI[,29]-fMRI[,8]
+R_precuneus_postcentral_diff<-fMRI[,30]-fMRI[,9]
+R_precuneus_R_fusiform_diff<-fMRI[,31]-fMRI[,10]
+R_precuneus_R_hippocampus_diff<-fMRI[,32]-fMRI[,11]
+R_precuneus_superior_frontal_diff<-fMRI[,33]-fMRI[,12]
+R_precuneus_insula_diff<-fMRI[,34]-fMRI[,13]
+R_hipp_L_insula_diff<-fMRI[,35]-fMRI[,14]
+R_hipp_subcallosal_diff<-fMRI[,36]-fMRI[,15]
+R_hipp_postcing_diff<-fMRI[,37]-fMRI[,16]
+R_hipp_superior_frontal_diff<-fMRI[,38]-fMRI[,17]
+R_amyg_thalamus_hippocampus_diff<-fMRI[,39]-fMRI[,18]
+L_amyg_ACC_diff<-fMRI[,40]-fMRI[,19]
+L_precuneus_L_postcing_diff<-fMRI[,41]-fMRI[,20]
+L_precuneus_L_precentral_SMA_diff<-fMRI[,42]-fMRI[,21]
+L_precuneus_R_precentral_diff<-fMRI[,43]-fMRI[,22]
+
+table.cor<-data.frame(cdrs_prechange, L_hipp_L_insula_diff, L_hipp_ACC_diff, L_postcing_Lfusiform_diff, L_postcing_precentral_postcentral_diff, L_postcing_R_frontal_pole_diff, R_rostralACC_subcallosal_diff, R_rostralACC_frontal_pole_diff, R_precuneus_postcentral_diff, R_precuneus_R_fusiform_diff, R_precuneus_R_hippocampus_diff, R_precuneus_superior_frontal_diff, R_precuneus_insula_diff, R_hipp_L_insula_diff, R_hipp_subcallosal_diff, R_hipp_postcing_diff, R_hipp_superior_frontal_diff, R_amyg_thalamus_hippocampus_diff, L_amyg_ACC_diff, L_precuneus_L_postcing_diff, L_precuneus_L_precentral_SMA_diff, L_precuneus_R_precentral_diff)
+View(table.cor)
+##one sample t-test##
+## one sample t-test for diff with Ho: mu=0 Ha=two.sided 
+##0.3318621 p-value = 0.334
+t.test(table.cor[,2], mu=0, alternative="two.sided", conf.level=0.95)
+
+##-0.2707354 p-value = 0.614
+t.test(table.cor[,3], mu=0, alternative="two.sided", conf.level=0.95)
+
+##0.1294889 p-value = 0.772
+t.test(table.cor[,4], mu=0, alternative="two.sided", conf.level=0.95)
+
+## -0.639403 p-value = 0.270
+t.test(table.cor[,5], mu=0, alternative="two.sided", conf.level=0.95)
+
+## -0.08661625 p-value = 0.872
+t.test(table.cor[,6], mu=0, alternative="two.sided", conf.level=0.95)
+
+##-0.4005255   p-value = 0.426
+t.test(table.cor[,7], mu=0, alternative="two.sided", conf.level=0.95)
+
+## -0.6373602 p-value = 0.345
+t.test(table.cor[,8], mu=0, alternative="two.sided", conf.level=0.95)
+
+##-0.544049  p-value = 0.390
+t.test(table.cor[,9], mu=0, alternative="two.sided", conf.level=0.95)
+
+##-0.031733  p-value = 0.955
+t.test(table.cor[,10], mu=0, alternative="two.sided", conf.level=0.95)
+
+## -0.07100963 p-value = 0.896
+t.test(table.cor[,11], mu=0, alternative="two.sided", conf.level=0.95)
+## 0.2252616 p-value = 0.706
+t.test(table.cor[,12], mu=0, alternative="two.sided", conf.level=0.95)
+## 0.3066747 p-value =0.597
+t.test(table.cor[,13], mu=0, alternative="two.sided", conf.level=0.95)
+
+## 0.328511 p-value = 0.355
+t.test(table.cor[,14], mu=0, alternative="two.sided", conf.level=0.95)
+
+## -0.05843263 p-value = 0.860
+t.test(table.cor[,15], mu=0, alternative="two.sided", conf.level=0.95)
+
+##  -0.03911 p-value = 0.914
+t.test(table.cor[,16], mu=0, alternative="two.sided", conf.level=0.95)
+
+## -0.3224361 p-value = 0.475
+t.test(table.cor[,17], mu=0, alternative="two.sided", conf.level=0.95)
+## -0.2601389  p-value = 0.537
+t.test(table.cor[,18], mu=0, alternative="two.sided", conf.level=0.95)
+
+## 0.1089519   p-value = 0.797
+t.test(table.cor[,19], mu=0, alternative="two.sided", conf.level=0.95)
+
+## 0.4449994  p-value = 0.523
+t.test(table.cor[,20], mu=0, alternative="two.sided", conf.level=0.95)
+
+## 0.568566  p-value = 0.036
+t.test(table.cor[,21], mu=0, alternative="two.sided", conf.level=0.95)
+
+## -0.2798365  p-value = 0.655
+t.test(table.cor[,22], mu=0, alternative="two.sided", conf.level=0.95)
+
+diff<-c(0.332,-0.271,0.129,-0.639,-0.087,-0.401,-0.637,-0.544,-0.032,-0.071,0.225,0.307,0.329,-0.058,-0.039,-0.322,-0.260,0.109,0.445,0.569,-0.280)
+p.value<-c(0.167,0.693,0.386,0.865,0.564,0.787,0.828,0.805,0.523,0.552,0.353,0.299,0.178,0.570,0.543,0.763,0.731,0.398,0.256,0.018,0.673)
+fMRI_table.2<-data.frame(newname,Baseline,Post_treatment,diff,p.value)
+
+library(knitr)
+kable(fMRI_table.2, caption = "Table 1. Baseline and Post-treatment of fMRI")
+```

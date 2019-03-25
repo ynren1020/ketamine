@@ -1,0 +1,139 @@
+---
+title: "RA-ketamine"
+author: "Yanan Ren"
+date: "Saturday, September 10, 2016"
+output: pdf_document
+---
+
+
+
+```{r,echo=FALSE}
+## create data frame for baseline cdrs and post cdrs ##
+bl_cdrs_comb_tscore<-c(90,76,75,68,84,64.5,74)
+grid_bl<-c(6977,7046,7097,7111,7309,7360,7544,NULL,NULL)
+bl_cdrs<-cbind(grid_bl,bl_cdrs_comb_tscore)
+
+ptx_cdrs_comb_tscore<-c(76,81,66,63,75,NULL,55,52,NULL)
+grid_ptx<-c(6977,7046,7097,7111,7309,NULL,7544,7549,NULL)
+ptx_cdrs<-cbind(grid_ptx,ptx_cdrs_comb_tscore)
+
+## combine baseline and post cdrs by grid ##
+diff_cdrs<-merge(bl_cdrs,ptx_cdrs,by.x="grid_bl",by.y="grid_ptx")
+diff_cdrs$BMI<-c(34.9,29.3,35.9,30.7,18.7,37.2)
+diff_cdrs$IQ<-c(118,119,116,127,97,100)
+diff_cdrs$age<-c(17.7,16.8,14.5,16.9,17.3,17)
+diff_cdrs$gender<-as.factor(c(1,1,1,2,1,1))
+diff_cdrs$bl_madrs<-c(39,26,28,26,32,28)
+diff_cdrs$diff<-diff_cdrs$bl_cdrs_comb_tscore-diff_cdrs$ptx_cdrs_comb_tscore
+## formula to get percent change of cdrs ##
+perchange <- (diff_cdrs$bl_cdrs_comb_tscore-diff_cdrs$ptx_cdrs_comb_tscore)/(diff_cdrs$bl_cdrs_comb_tscore-17)
+diff_cdrs$perchange<-perchange
+
+diff_cdrs$dep_txs_tried<-c(6,7,3,6,12,2)
+diff_cdrs$bl_cdrs_rawscore <-c(90,60,58,50,71,57)
+diff_cdrs$ptx_cdrs_rawscore <-c(60,66,46,40,58,30)
+diff_cdrs$diff_rawscore <-diff_cdrs$bl_cdrs_rawscore-diff_cdrs$ptx_cdrs_rawscore
+diff_cdrs$perchange_rawscore <-diff_cdrs$diff_rawscore/(diff_cdrs$bl_cdrs_rawscore-17)
+diff_cdrs$onset_age<-c(15,4,12,14,13,12)
+diff_cdrs$diff_age<-diff_cdrs$age-diff_cdrs$onset_age
+```
+
+
+```{r, echo=FALSE}
+## one sample t-test for diff with Ho: mu=0 Ha=greater ##
+t.test(diff_cdrs$diff_rawscore, mu=0, alternative="greater", conf.level=0.95)
+t.test(diff_cdrs$perchange_rawscore, mu=0, alternative="greater", conf.level=0.95)
+
+## paired t.test ##
+t.test(diff_cdrs$bl_cdrs_rawscore,diff_cdrs$ptx_cdrs_rawscore,paired=T)
+t.test(diff_cdrs$diff_rawscore, mu=0, alternative="greater", conf.level=0.95)
+```
+
+summary statistics
+```{r,echo=FALSE}
+
+## summary statistic ##
+summary(diff_cdrs)
+
+## basic graph--Grouped bar plot##
+
+barplot(diff_cdrs$diff, names.arg=diff_cdrs$grid_bl)
+title("Treatment Effect for Each Participants")
+
+## Correlation analysis ##
+cor(diff_cdrs$diff,diff_cdrs$bl_cdrs_comb_tscore)  #0.27
+cor(diff_cdrs$bl_madrs, diff_cdrs$diff)            #0.47
+cor(diff_cdrs$IQ, diff_cdrs$diff)                 #-0.51
+cor(diff_cdrs$age, diff_cdrs$diff)                #0.126
+cor(diff_cdrs$BMI, diff_cdrs$diff)                #0.38
+
+#cdrs <- table(diff_cdrs$bl_cdrs_comb_tscore, diff_cdrs$ptx_cdrs_comb_tscore)
+#barplot(cdrs, main="Change of CDRS before and after treatment",
+#  xlab="Number of participants", col=c("darkblue","red"),
+#   legend = rownames(cdrs), beside=TRUE)
+
+```
+
+```{r, echo=FALSE}
+## plot between treatment effect and predictors (bl,age,IQ,BMI,bl_madrs) ##
+plot(diff_cdrs$bl_madrs, diff_cdrs$diff_rawscore)
+cor(diff_cdrs$bl_madrs, diff_cdrs$diff_rawscore)
+cor(diff_cdrs$bl_madrs,diff_cdrs$bl_cdrs_rawscore)
+
+plot(diff_cdrs$IQ, diff_cdrs$diff_rawscore)
+cor(diff_cdrs$IQ, diff_cdrs$diff_rawscore)
+
+plot(diff_cdrs$age, diff_cdrs$diff_rawscore)
+plot(diff_cdrs$BMI, diff_cdrs$diff_rawscore)
+cor(diff_cdrs$BMI, diff_cdrs$diff_rawscore)
+
+plot(diff_cdrs$bl_cdrs_rawscore, diff_cdrs$diff_rawscore)
+cor(diff_cdrs$bl_cdrs_rawscore, diff_cdrs$diff_rawscore)
+
+plot(diff_cdrs$dep_txs_tried, diff_cdrs$diff_rawscore)
+cor(diff_cdrs$dep_txs_tried, diff_cdrs$diff_rawscore) 
+```
+
+## linear model of bl_cdrs ##
+```{r, echo=FALSE}
+## All Subsets Regression ##
+fit0 <- lm(diff_rawscore ~ bl_cdrs_rawscore,data=diff_cdrs)
+# view results # 
+summary(fit0)
+
+fit1 <- lm(diff_rawscore ~ bl_cdrs_rawscore + BMI,data=diff_cdrs)
+summary(fit1)
+
+fit2 <- lm(diff_rawscore ~ bl_cdrs_rawscore + age,data=diff_cdrs)
+summary(fit2)
+
+fit3 <- lm(diff_rawscore ~ bl_cdrs_rawscore + dep_txs_tried,data=diff_cdrs)
+summary(fit3)
+
+fit4 <- lm(diff_rawscore ~ bl_cdrs_rawscore + onset_age,data=diff_cdrs)
+summary(fit4)
+
+fit5 <- lm(diff_rawscore ~ bl_cdrs_rawscore + diff_age,data=diff_cdrs)
+summary(fit5)
+
+fit6 <- lm(diff_rawscore ~ bl_cdrs_rawscore + bl_madrs,data=diff_cdrs)
+summary(fit6)
+
+fit7 <- lm(diff_rawscore ~ bl_madrs,data=diff_cdrs)
+summary(fit7)
+
+
+```
+
+## linear model for perchange ##
+```{r,echo=FALSE}
+fit00 <-lm(perchange_rawscore ~ bl_cdrs_rawscore,data=diff_cdrs)
+summary(fit00)
+
+fit30 <- lm(perchange_rawscore ~ bl_cdrs_rawscore + dep_txs_tried,data=diff_cdrs)
+summary(fit30)
+
+fit60 <- lm(perchange_rawscore ~ bl_cdrs_rawscore + bl_madrs,data=diff_cdrs)
+summary(fit60)
+
+```

@@ -1,0 +1,52 @@
+---
+title: "Ketamine-tables"
+author: "Yanan Ren"
+date: "2016Äê9ÔÂ21ÈÕ"
+output: word_document
+---
+
+```{r results = 'asis'} 
+## read dataset ##
+ketamine <- read.csv('D:/Biostatistics/2016FallRA/ketamine.csv',header=T, sep=',')
+head(ketamine)
+nrow(ketamine)
+ncol(ketamine)
+summary(ketamine)
+ketamine[,15:24]
+ketamine$height
+ketamine$weight
+
+## BMI ##
+
+  a<-ketamine$height
+  b<-ketamine$weight
+  bmi<-b*0.45/((a*0.025)^2)
+ 
+
+
+## mean at baseline ##
+mean(ketamine$age_at_baseline)
+mean(as.numeric(as.character(ketamine$depression_age_of_onset[ketamine$depression_age_of_onset!="NULL"])))
+mean(as.numeric(as.character(ketamine$depression_txs_tried[ketamine$depression_txs_tried!="NULL"])))
+mean(as.numeric(as.character(ketamine$iq_2[ketamine$iq_2!="NULL"])))
+mean(bmi)
+
+## sd at baseline ##
+sd(ketamine$age_at_baseline)
+sd(as.numeric(as.character(ketamine$depression_age_of_onset[ketamine$depression_age_of_onset!="NULL"])))
+sd(as.numeric(as.character(ketamine$depression_txs_tried[ketamine$depression_txs_tried!="NULL"])))
+sd(as.numeric(as.character(ketamine$iq_2[ketamine$iq_2!="NULL"])))
+sd(bmi)
+
+## Table 1. Baseline Characteristics ##
+Variable <- c("Gender(Female)no.%","Age-yr","IQ","BMI","Depression age of onset","Treatment tried")
+Mean<-c(16.8,113.6,31.4,11.6,5.6)
+SD<-c(1.0,10.9,6.5,4.4,3.4)
+no_prop<-paste(2,"(",22.2,")",sep=" ")
+Baseline_1<-paste(Mean,"¡À",SD, sep=" ")
+Baseline<-c(no_prop,Baseline_1)
+table1<-data.frame(Variable,Baseline)
+library(knitr)
+kable(table1, caption = "Table 1. Baseline Characteristics")
+```
+

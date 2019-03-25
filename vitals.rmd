@@ -1,0 +1,212 @@
+---
+title: "ket-vitals"
+author: "Yanan Ren"
+date: "2016Äê12ÔÂ29ÈÕ"
+output: word_document
+---
+##read dataset##
+```{r, echo=FALSE}
+setwd("D:/Biostatistics/2016FallRA/")
+vitals<-read.csv("dataset/ket_vitals_r.csv", header=T, sep=',')
+attach(vitals)
+View(vitals)
+
+```
+
+##reshape dataset##
+```{r, echo=FALSE}
+## long dataset##
+library(reshape2)
+vitals_long <- melt(vitals,
+                           id.vars = "grid",
+                           variable.name = "vitals")
+as.numeric(vitals_long$value)
+vitals_long<-vitals_long[order(vitals_long$grid),]
+View(vitals_long)
+```
+
+##subset vitals_long by grid then by vitals##
+```{r, echo=FALSE}
+vitals_6977<-vitals_long[vitals_long$grid==6977,]
+vitals_6977
+
+#####sbp_6977###
+sbp_6977<-vitals_6977[grep("sbp",vitals_6977$vitals),]
+sbp_6977
+sbp_6977$time<-rep(c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"),6)
+sbp_6977$infusion<-c(rep("inf1",12),rep("inf2",12),rep("inf3",12),rep("inf4",12),rep("inf5",12),rep("inf6",12))
+
+####dbp_6977####
+dbp_6977<-vitals_6977[grep("dbp",vitals_6977$vitals),]
+dbp_6977$time<-rep(c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"),6)
+dbp_6977$infusion<-c(rep("inf1",12),rep("inf2",12),rep("inf3",12),rep("inf4",12),rep("inf5",12),rep("inf6",12))
+dbp_6977
+
+####pr_6977####
+pr_6977<-vitals_6977[grep("_pr",vitals_6977$vitals),]
+pr_6977$time<-rep(c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"),6)
+pr_6977$infusion<-c(rep("inf1",12),rep("inf2",12),rep("inf3",12),rep("inf4",12),rep("inf5",12),rep("inf6",12))
+pr_6977
+
+####rr_6977####
+rr_6977<-vitals_6977[grep("_rr",vitals_6977$vitals),]
+rr_6977$time<-rep(c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"),6)
+rr_6977$infusion<-c(rep("inf1",12),rep("inf2",12),rep("inf3",12),rep("inf4",12),rep("inf5",12),rep("inf6",12))
+rr_6977
+
+####spo2_6977####
+spo2_6977<-vitals_6977[grep("_spo2",vitals_6977$vitals),]
+spo2_6977$time<-rep(c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"),6)
+spo2_6977$infusion<-c(rep("inf1",12),rep("inf2",12),rep("inf3",12),rep("inf4",12),rep("inf5",12),rep("inf6",12))
+spo2_6977
+
+```
+
+##plot##
+```{r, echo=FALSE}
+library(ggplot2)
+##sbp_6977
+ggplot(sbp_6977, aes(x=time, y=value, group=infusion, colour=factor(infusion))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"))+
+  labs(x = "Time",
+       y = "SBP_6977",
+       title = "SBP across time")+
+    theme_bw()
+
+##dbp_6977
+ggplot(dbp_6977, aes(x=time, y=value, group=infusion, colour=factor(infusion))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"))+
+  labs(x = "Time",
+       y = "dBP_6977",
+       title = "dBP across time")+
+    theme_bw()
+
+##pr_6977
+ggplot(pr_6977, aes(x=time, y=value, group=infusion, colour=factor(infusion))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"))+
+  labs(x = "Time",
+       y = "pr_6977",
+       title = "pr across time")+
+    theme_bw()
+
+##rr_6977
+ggplot(rr_6977, aes(x=time, y=value, group=infusion, colour=factor(infusion))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"))+
+  labs(x = "Time",
+       y = "rr_6977",
+       title = "rr across time")+
+    theme_bw()
+
+##spo2_6977
+ggplot(spo2_6977, aes(x=time, y=value, group=infusion, colour=factor(infusion))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"))+
+  labs(x = "Time",
+       y = "spo2_6977",
+       title = "spo2 across time")+
+    theme_bw()
+
+```
+
+###7046,7097,7111,7309,7544,7549,7683###
+```{r, echo=FALSE}
+
+vitals_7683<-vitals_long[vitals_long$grid==7683,]
+vitals_7683
+
+#####sbp_7683###
+sbp_7683<-vitals_7683[grep("sbp",vitals_7683$vitals),]
+sbp_7683$time<-rep(c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"),6)
+sbp_7683$infusion<-c(rep("inf1",12),rep("inf2",12),rep("inf3",12),rep("inf4",12),rep("inf5",12),rep("inf6",12))
+sbp_7683
+
+####dbp_7683####
+dbp_7683<-vitals_7683[grep("dbp",vitals_7683$vitals),]
+dbp_7683$time<-rep(c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"),6)
+dbp_7683$infusion<-c(rep("inf1",12),rep("inf2",12),rep("inf3",12),rep("inf4",12),rep("inf5",12),rep("inf6",12))
+dbp_7683
+
+####pr_7683####
+pr_7683<-vitals_7683[grep("_pr",vitals_7683$vitals),]
+pr_7683$time<-rep(c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"),6)
+pr_7683$infusion<-c(rep("inf1",12),rep("inf2",12),rep("inf3",12),rep("inf4",12),rep("inf5",12),rep("inf6",12))
+pr_7683
+
+####rr_7683####
+rr_7683<-vitals_7683[grep("_rr",vitals_7683$vitals),]
+rr_7683$time<-rep(c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"),6)
+rr_7683$infusion<-c(rep("inf1",12),rep("inf2",12),rep("inf3",12),rep("inf4",12),rep("inf5",12),rep("inf6",12))
+rr_7683
+
+####spo2_7683####
+spo2_7683<-vitals_7683[grep("_spo2",vitals_7683$vitals),]
+spo2_7683$time<-rep(c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"),6)
+spo2_7683$infusion<-c(rep("inf1",12),rep("inf2",12),rep("inf3",12),rep("inf4",12),rep("inf5",12),rep("inf6",12))
+spo2_7683
+
+####plot####
+##sbp_7683
+ggplot(sbp_7683, aes(x=time, y=value, group=infusion, colour=factor(infusion))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"))+
+  labs(x = "Time",
+       y = "SBP_7683",
+       title = "SBP across time")+
+    theme_bw()
+
+##dbp_7683
+ggplot(dbp_7683, aes(x=time, y=value, group=infusion, colour=factor(infusion))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"))+
+  labs(x = "Time",
+       y = "dBP_7683",
+       title = "dBP across time")+
+    theme_bw()
+
+##pr_7683
+ggplot(pr_7683, aes(x=time, y=value, group=infusion, colour=factor(infusion))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"))+
+  labs(x = "Time",
+       y = "pr_7683",
+       title = "pr across time")+
+    theme_bw()
+
+##rr_7683
+ggplot(rr_7683, aes(x=time, y=value, group=infusion, colour=factor(infusion))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"))+
+  labs(x = "Time",
+       y = "rr_7683",
+       title = "rr across time")+
+    theme_bw()
+
+##spo2_7683
+ggplot(spo2_7683, aes(x=time, y=value, group=infusion, colour=factor(infusion))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11"))+
+  labs(x = "Time",
+       y = "spo2_7683",
+       title = "spo2 across time")+
+    theme_bw()
+
+
+
+
+
+
+```

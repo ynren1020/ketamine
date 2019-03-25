@@ -1,0 +1,183 @@
+---
+title: "teps_anti_prepost_ttest"
+author: "Yanan Ren"
+date: "2016Äê10ÔÂ7ÈÕ"
+output: word_document
+---
+
+```{r results = 'asis',echo=FALSE} 
+## read dataset ##
+setwd("D:/Biostatistics/2016FallRA/")
+ketamine<-read.csv("dataset/ketna.csv", header=T, sep=',')
+attach(ketamine)
+nrow(ketamine)
+ncol(ketamine)
+
+
+##teps anticipatory subset ##
+
+tepsanti<-as.character(c("grid","bl_teps_anticipatory_total",              "ptx_teps_anticipatory_total","pre_inf1_teps_anticipatory_total",         "X2hr_inf1_teps_anticipatory_total","pre_inf2_teps_anticipatory_total",
+"X2hr_inf2_teps_anticipatory_total","pre_inf3_teps_anticipatory_total",
+"X2hr_inf3_teps_anticipatory_total","pre_inf4_teps_anticipatory_total",
+"X2hr_inf4_teps_anticipatory_total","pre_inf5_teps_anticipatory_total",
+"X2hr_inf5_teps_anticipatory_total","pre_inf6_teps_anticipatory_total",
+"X2hr_inf6_teps_anticipatory_total"))
+ketaminetepsanti<-ketamine[tepsanti]
+
+ncol(ketaminetepsanti)
+nrow(ketaminetepsanti)
+head(ketaminetepsanti)
+#ketaminetepsanti[ketaminetepsanti[,]=="NULL"]<-NA
+View(ketaminetepsanti)
+
+## teps con infusion 1 ##
+ketaminetepsanti1<-na.omit(ketaminetepsanti[,4:5])
+nrow(ketaminetepsanti1)  ##N=7
+
+inf1_pre.mean<-mean(as.numeric(as.character(ketaminetepsanti1[,1])))
+inf1_pre.mean  ##24.857
+inf1_pre.sd<-sd(as.numeric(as.character(ketaminetepsanti1[,1])))
+inf1_pre.sd   ## 7.798
+inf1_post.mean<-mean(as.numeric(as.character(ketaminetepsanti1[,2])))
+inf1_post.mean  ##29.143
+inf1_post.sd<-sd(as.numeric(as.character(ketaminetepsanti1[,2])))
+inf1_post.sd    ##11.553
+
+diff_tepsanti1<-as.numeric(as.character(ketaminetepsanti1[,1]))-as.numeric(as.character(ketaminetepsanti1[,2]))
+diff_tepsanti1
+mean(diff_tepsanti1)  #-4.286
+sd(diff_tepsanti1)    #5.908
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.948
+t.test(diff_tepsanti1, mu=0, alternative="greater", conf.level=0.95)
+
+## tepsanti infusion2 ##
+ketaminetepsanti2<-na.omit(ketaminetepsanti[,6:7])
+nrow(ketaminetepsanti2)  ##N=7
+
+inf2_pre.mean<-mean(as.numeric(as.character(ketaminetepsanti2[,1])))
+inf2_pre.mean  ##26
+inf2_pre.sd<-sd(as.numeric(as.character(ketaminetepsanti2[,1])))
+inf2_pre.sd   ## 9.504
+inf2_post.mean<-mean(as.numeric(as.character(ketaminetepsanti2[,2])))
+inf2_post.mean  ##27.429
+inf2_post.sd<-sd(as.numeric(as.character(ketaminetepsanti2[,2])))
+inf2_post.sd    ##10.659
+
+diff_tepsanti2<-as.numeric(as.character(ketaminetepsanti2[,1]))-as.numeric(as.character(ketaminetepsanti2[,2]))
+diff_tepsanti2
+mean(diff_tepsanti2) #-1.429
+sd(diff_tepsanti2)   #3.047
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.869
+t.test(diff_tepsanti2, mu=0, alternative="greater", conf.level=0.95)
+
+## tepsanti infusion3 ##
+ketaminetepsanti3<-na.omit(ketaminetepsanti[,8:9])
+nrow(ketaminetepsanti3)  ##N=7
+
+inf3_pre.mean<-mean(as.numeric(as.character(ketaminetepsanti3[,1])))
+inf3_pre.mean  ##25
+inf3_pre.sd<-sd(as.numeric(as.character(ketaminetepsanti3[,1])))
+inf3_pre.sd   ## 10.646
+inf3_post.mean<-mean(as.numeric(as.character(ketaminetepsanti3[,2])))
+inf3_post.mean  ##27
+inf3_post.sd<-sd(as.numeric(as.character(ketaminetepsanti3[,2])))
+inf3_post.sd    ##11.030
+
+diff_tepsanti3<-as.numeric(as.character(ketaminetepsanti3[,1]))-as.numeric(as.character(ketaminetepsanti3[,2]))
+diff_tepsanti3
+mean(diff_tepsanti3)  #-2
+sd(diff_tepsanti3)   #3.606
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.904
+t.test(diff_tepsanti3, mu=0, alternative="greater", conf.level=0.95)
+
+## tepsanti infusion4 ##
+ketaminetepsanti4<-na.omit(ketaminetepsanti[,10:11])
+nrow(ketaminetepsanti4)  ##N=7
+
+inf4_pre.mean<-mean(as.numeric(as.character(ketaminetepsanti4[,1])))
+inf4_pre.mean  #
+inf4_pre.sd<-sd(as.numeric(as.character(ketaminetepsanti4[,1])))
+inf4_pre.sd   ## 
+inf4_post.mean<-mean(as.numeric(as.character(ketaminetepsanti4[,2])))
+inf4_post.mean  ##
+inf4_post.sd<-sd(as.numeric(as.character(ketaminetepsanti4[,2])))
+inf4_post.sd    ##
+
+diff_tepsanti4<-as.numeric(as.character(ketaminetepsanti4[,1]))-as.numeric(as.character(ketaminetepsanti4[,2]))
+diff_tepsanti4
+mean(diff_tepsanti4) 
+sd(diff_tepsanti4)   
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.371
+t.test(diff_tepsanti4, mu=0, alternative="greater", conf.level=0.95)
+
+## tepsanti infusion5 ##
+ketaminetepsanti5<-na.omit(ketaminetepsanti[,12:13])
+nrow(ketaminetepsanti5)  ##N=7
+
+inf5_pre.mean<-mean(as.numeric(as.character(ketaminetepsanti5[,1])))
+inf5_pre.mean  ##
+inf5_pre.sd<-sd(as.numeric(as.character(ketaminetepsanti5[,1])))
+inf5_pre.sd   ## 
+inf5_post.mean<-mean(as.numeric(as.character(ketaminetepsanti5[,2])))
+inf5_post.mean  ##
+inf5_post.sd<-sd(as.numeric(as.character(ketaminetepsanti5[,2])))
+inf5_post.sd    ##
+
+diff_tepsanti5<-as.numeric(as.character(ketaminetepsanti5[,1]))-as.numeric(as.character(ketaminetepsanti5[,2]))
+diff_tepsanti5
+mean(diff_tepsanti5)  
+sd(diff_tepsanti5)    
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.885
+t.test(diff_tepsanti5, mu=0, alternative="greater", conf.level=0.95)
+
+## tepsanti infusion6 ##
+ketaminetepsanti6<-na.omit(ketaminetepsanti[,14:15])
+nrow(ketaminetepsanti6)  ##N=8
+
+inf6_pre.mean<-mean(as.numeric(as.character(ketaminetepsanti6[,1])))
+inf6_pre.mean  ##26.375
+inf6_pre.sd<-sd(as.numeric(as.character(ketaminetepsanti6[,1])))
+inf6_pre.sd   ## 11.6
+inf6_post.mean<-mean(as.numeric(as.character(ketaminetepsanti6[,2])))
+inf6_post.mean  ##27.875
+inf6_post.sd<-sd(as.numeric(as.character(ketaminetepsanti6[,2])))
+inf6_post.sd    ##12.575
+
+diff_tepsanti6<-as.numeric(as.character(ketaminetepsanti6[,1]))-as.numeric(as.character(ketaminetepsanti6[,2]))
+diff_tepsanti6
+mean(diff_tepsanti6) 
+sd(diff_tepsanti6)   
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.896
+t.test(diff_tepsanti6, mu=0, alternative="greater", conf.level=0.95)
+
+## create data frame for output ##
+Infusion<-paste("teps_anti",1:6,sep="")
+length(Infusion)
+
+meanpreinf<-round(c(inf1_pre.mean,inf2_pre.mean,inf3_pre.mean,inf4_pre.mean,inf5_pre.mean,inf6_pre.mean),digits=1)
+sdpreinf<-round(c(inf1_pre.sd,inf2_pre.sd,inf3_pre.sd,inf4_pre.sd,inf5_pre.sd,inf6_pre.sd),digits=1)
+preinf<-paste(meanpreinf,"¡À",sdpreinf,sep="")
+
+meanpostinf<-round(c(inf1_post.mean,inf2_post.mean,inf3_post.mean,inf4_post.mean,inf5_post.mean,inf6_post.mean),digits=1)
+sdpostinf<-round(c(inf1_post.sd,inf2_post.sd,inf3_post.sd,inf4_post.sd,inf5_post.sd,inf6_post.sd),digits=1)
+twohrpostinf<-paste(meanpostinf,"¡À",sdpostinf,sep="")
+
+meandiff<-round(c(mean(diff_tepsanti1),mean(diff_tepsanti2),mean(diff_tepsanti3),mean(diff_tepsanti4),mean(diff_tepsanti5),mean(diff_tepsanti6)),digits=1)
+sddiff<-round(c(sd(diff_tepsanti1),sd(diff_tepsanti2),sd(diff_tepsanti3),sd(diff_tepsanti4),sd(diff_tepsanti5),sd(diff_tepsanti6)),digits=1)
+difference<-paste(meandiff,"¡À",sddiff,sep="")
+
+N<-c(rep(7,5),8)
+N
+
+p.value<-c(0.948,0.869,0.904,0.371,0.885,0.896)
+
+tepsantidata<-data.frame(Infusion,preinf,twohrpostinf,difference,N,p.value)
+tepsantidata
+##write tepsanti table##
+#setwd("D:/Biostatistics/2016FallRA/output")
+#write.csv(tepsantidata, file = "tepsanti.csv")
+library(knitr)
+kable(tepsantidata, caption = "Table 8. TEPS anticipatory Secondary Outcomes")
+
+```
+

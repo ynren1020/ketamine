@@ -1,0 +1,68 @@
+---
+title: "BDI_Plot_acrosstime"
+author: "Yanan Ren"
+date: "2016Äê10ÔÂ8ÈÕ"
+output: word_document
+---
+```{r results = 'asis',echo=FALSE} 
+## read dataset ##
+setwd("D:/Biostatistics/2016FallRA/")
+ketamine<-read.csv("dataset/ketna.csv", header=T, sep=',')
+attach(ketamine)
+nrow(ketamine)
+ncol(ketamine)
+
+##BDI subset ##
+
+bdi<-c("grid","bl_bdi_total_score","pre_inf1_bdi_total_score","post_inf1_bdi_total_score","pre_inf2_bdi_total_score","post_inf2_bdi_total_score","pre_inf3_bdi_total_score","post_inf3_bdi_total_score","pre_inf4_bdi_total_score","post_inf4_bdi_total_score","pre_inf5_bdi_total_score","post_inf5_bdi_total_score","pre_inf6_bdi_total_score","post_inf6_bdi_total_score","ptx_bdi_total_score")
+ketaminebdi<-ketamine[bdi]
+ncol(ketaminebdi)
+nrow(ketaminebdi)
+head(ketaminebdi)
+#ketaminebdi[ketaminebdi[,]=="NULL"]<-"NA"
+View(ketaminebdi)
+ketaminebdi<-transform(ketaminebdi)
+class(ketaminebdi)
+
+
+
+## bdi baseline ##
+#ketaminebdibl<-na.omit(ketaminebdi[,1:2])
+#nrow(ketaminebdibl) 
+#bl.mean<-mean(as.numeric(as.character(ketaminebdibl[,2]))) ##27.5
+#bl.sd<-sd(as.numeric(as.character(ketaminebdibl[,2]))) 
+#bl.z<-qt(0.975,df=nrow(ketaminebdibl)-1)
+#bl.ci<-bl.z*bl.sd/sqrt(nrow(ketaminebdibl))    ##8.006
+
+##baseline ##
+bl<-as.numeric(as.character(na.omit(ketaminebdi[,2])))
+bl.mean<-mean(bl)  ##27.5
+bl.sd<-sd(bl)
+bl.z<-qt(0.975,df=length(bl)-1)
+bl.ci<-bl.z*bl.sd/sqrt(length(bl)) #8.006
+
+##pre1##
+pre1<-as.numeric(as.character(na.omit(ketaminebdi[,3])))
+pre1.mean<-mean(pre1)  ##26.625
+pre1.sd<-sd(pre1)
+pre1.z<-qt(0.975,df=length(pre1)-1)
+pre1.ci<-pre1.z*pre1.sd/sqrt(length(pre1)) #7.246
+
+##fun##
+bdimean<-apply(ketaminebdi[,-1],2,mean,na.rm=T)
+class(ketaminebdi)
+colMeans(ketaminebdi[,-1],na.rm=T)
+colMeans(as.numeric(as.character(ketaminebdi[,-1])),na.rm = T)
+table(as.numeric(as.character(ketaminebdi[,-1])),useNA="no")
+
+class(ketaminebdi[,2])
+
+l<-colMeans(as.numeric(ketaminebdi[,-1]))
+sapply(ketaminebdi,mode)
+
+colMeans(ketaminebdi,na.rm=T)
+l
+```
+
+
+

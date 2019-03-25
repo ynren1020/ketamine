@@ -1,0 +1,207 @@
+---
+title: "noddi"
+author: "Yanan Ren"
+date: "2016Äê11ÔÂ9ÈÕ"
+output: word_document
+---
+
+```{r, echo=FALSE}
+setwd("D:/Biostatistics/2016FallRA/")
+noddi<-read.csv("dataset/noddi.csv", header=T, sep=',')
+attach(noddi)
+View(noddi)
+colnames(noddi)
+
+##mean and sd##
+mean_noddi<-as.data.frame(apply(noddi[,2:ncol(noddi)], 2, mean))
+mean_noddi
+baseline_mean<-round(mean_noddi[1:6,],3)
+baseline_mean
+ptx_trt_mean<-round(mean_noddi[7:12,],3)
+ptx_trt_mean
+
+sd_noddi<-as.data.frame(apply(noddi[,2:ncol(noddi)], 2, sd))
+sd_noddi
+baseline_sd<-round(sd_noddi[1:6,],3)
+baseline_sd
+ptx_trt_sd<-round(sd_noddi[7:12,],3)
+ptx_trt_sd
+
+Baseline<-paste(baseline_mean,"¡À",baseline_sd, sep=" ")
+Baseline
+Post_treatment<-paste(ptx_trt_mean,"¡À",ptx_trt_sd, sep=" ")
+Post_treatment
+
+#names<-colnames(noddi)
+#newname<-substr(names[2:22],10,nchar(names[2:22]))
+newname<-c("R_ACC_WM","L_middle_frontal_WM","L_frontal_precentral_BA6_WM","R_parietal_WM","R_middle_frontal_WM","L_temporal_WM.nii.gz")
+
+#noddi_table<-data.frame(newname,Baseline,Post_treatment)
+
+#library(knitr)
+#kable(noddi_table, caption = "Table 1. Baseline and Post-treatment of #noddi")
+```
+
+##2
+```{r, echo=FALSE}
+cdrs_prechange<-c(0.41,-0.14,0.29,0.24,0.675,0.78,0.59)
+bdidiff<-c(6,-2,-1,11,36,29,15)
+madrsdiff<-c(11,0,5,2,23,18,9)
+R_ACC_WM_diff<-noddi[,8]-noddi[,2]
+L_middle_frontal_WM_diff<-noddi[,9]-noddi[,3]
+L_frontal_precentral_BA6_WM_diff<-noddi[,10]-noddi[,4]
+R_parietal_WM_diff<-noddi[,11]-noddi[,5]
+R_middle_frontal_WM_diff<-noddi[,12]-noddi[,6]
+L_temporal_WM.nii.gz_diff<-noddi[,13]-noddi[,7]
+
+
+table.cor<-data.frame(cdrs_prechange, R_ACC_WM_diff,L_middle_frontal_WM_diff,L_frontal_precentral_BA6_WM_diff,R_parietal_WM_diff,R_middle_frontal_WM_diff,L_temporal_WM.nii.gz_diff,bdidiff,madrsdiff)
+View(table.cor)
+##one sample t-test##
+## one sample t-test for diff with Ho: mu=0 Ha=two.sided 
+##0.04125814 p-value = 0.0004867
+t.test(table.cor[,2], mu=0, alternative="two.sided", conf.level=0.95)
+
+##0.061791 p-value = 1.984e-05
+t.test(table.cor[,3], mu=0, alternative="two.sided", conf.level=0.95)
+
+##-0.07092 p-value = 0.0005929
+t.test(table.cor[,4], mu=0, alternative="two.sided", conf.level=0.95)
+
+## 0.03144657 p-value = 7.018e-05
+t.test(table.cor[,5], mu=0, alternative="two.sided", conf.level=0.95)
+
+## 0.054379  p-value = 0.007311
+t.test(table.cor[,6], mu=0, alternative="two.sided", conf.level=0.95)
+
+##0.04626657   p-value = 0.1029
+t.test(table.cor[,7], mu=0, alternative="two.sided", conf.level=0.95)
+
+
+
+diff<-round(c(0.04125814,0.061791,-0.07092,0.03144657,0.054379,0.04626657),3)
+p.value<-c("4.867e-04","1.984e-05","5.929e-04","7.018e-05","7.311e-03","0.1029")
+noddi_table.2<-data.frame(newname,Baseline,Post_treatment,diff,p.value)
+
+library(knitr)
+kable(noddi_table.2, caption = "Table 1. Baseline and Post-treatment of noddi")
+```
+
+##BDI correlation with noddi#
+```{r,echo=FALSE}
+
+plot(table.cor[,2],table.cor[,8], ylab="BDI absolute change", xlab="R_ACC_WM_diff")
+plot(table.cor[,3],table.cor[,8], ylab="BDI absolute change", xlab="L_middle_frontal_WM_diff")
+plot(table.cor[,4],table.cor[,8], ylab="BDI absolute change", xlab="L_frontal_precentral_BA6_WM_diff")
+plot(table.cor[,5],table.cor[,8], ylab="BDI absolute change", xlab="R_parietal_WM_diff")
+plot(table.cor[,6],table.cor[,8], ylab="BDI absolute change", xlab="R_middle_frontal_WM_diff")
+plot(table.cor[,7],table.cor[,8], ylab="BDI absolute change", xlab="L_temporal_WM.nii.gz_diff")
+
+###correlation and pvalue
+cor.test(table.cor[,2],table.cor[,8])  
+##lab="R_ACC_WM_diff_diff";r=-0.01720273 ,p-value = 0.9708
+
+cor.test(table.cor[,3],table.cor[,8])
+##lab="L_middle_frontal_WM_diff", r=-0.2495266,p-value = 0.5895
+
+cor.test(table.cor[,4],table.cor[,8])
+##lab="L_frontal_precentral_BA6_WM_diff";r=0.2344536 ,p-value = 0.6128
+
+cor.test(table.cor[,5],table.cor[,8]) ##lab="R_parietal_WM_diff";r=-0.2369323,p-value = 0.609
+
+cor.test(table.cor[,6],table.cor[,8]) ##lab="R_middle_frontal_WM_diff";r=-0.1594575,p-value = 0.7327
+
+cor.test(table.cor[,7],table.cor[,8]) ##lab="L_temporal_WM.nii.gz_diff";r=-0.4822602 p-value = 0.2731
+
+```
+
+
+##MADRS correlation with noddi#
+```{r,echo=FALSE}
+
+plot(table.cor[,2],table.cor[,9], ylab="MADRS absolute change", xlab="R_ACC_WM_diff")
+plot(table.cor[,3],table.cor[,9], ylab="MADRS absolute change", xlab="L_middle_frontal_WM_diff")
+plot(table.cor[,4],table.cor[,9], ylab="MADRS absolute change", xlab="L_frontal_precentral_BA6_WM_diff")
+plot(table.cor[,5],table.cor[,9], ylab="MADRS absolute change", xlab="R_parietal_WM_diff")
+plot(table.cor[,6],table.cor[,9], ylab="MADRS absolute change", xlab="R_middle_frontal_WM_diff")
+plot(table.cor[,7],table.cor[,9], ylab="MADRS absolute change", xlab="L_temporal_WM.nii.gz_diff")
+
+###correlation and pvalue
+cor.test(table.cor[,2],table.cor[,9])  
+##lab="R_ACC_WM_diff_diff";r=-0.032126  ,p-value = 0.9455
+
+cor.test(table.cor[,3],table.cor[,9])
+##lab="L_middle_frontal_WM_diff", r=-0.390899 ,p-value = 0.3859
+
+cor.test(table.cor[,4],table.cor[,9])
+##lab="L_frontal_precentral_BA6_WM_diff";r=0.1457235 ,p-value = 0.7552
+
+cor.test(table.cor[,5],table.cor[,9]) ##lab="R_parietal_WM_diff";r=-0.1077292,p-value = 0.8182
+
+cor.test(table.cor[,6],table.cor[,9]) ##lab="R_middle_frontal_WM_diff";r=-0.2537478 ,p-value =  0.583
+
+cor.test(table.cor[,7],table.cor[,9]) ##lab="L_temporal_WM.nii.gz_diff";r=-0.4334944  p-value = 0.3312
+
+```
+
+
+
+```{r,echo=FALSE}
+##plot##
+#newname<-c("R_ACC_WM","L_middle_frontal_WM","L_frontal_precentral_BA6_WM","R_parietal_WM","R_middle_frontal_WM","L_temporal_WM.nii.gz")
+
+plot(table.cor[,2],table.cor[,1], ylab="CDRS percent change", xlab="R_ACC_WM_diff")
+plot(table.cor[,3],table.cor[,1], ylab="CDRS percent change", xlab="L_middle_frontal_WM_diff")
+plot(table.cor[,4],table.cor[,1], ylab="CDRS percent change", xlab="L_frontal_precentral_BA6_WM_diff")
+plot(table.cor[,5],table.cor[,1], ylab="CDRS percent change", xlab="R_parietal_WM_diff")
+plot(table.cor[,6],table.cor[,1], ylab="CDRS percent change", xlab="R_middle_frontal_WM_diff")
+plot(table.cor[,7],table.cor[,1], ylab="CDRS percent change", xlab="L_temporal_WM.nii.gz_diff")
+
+###correlation and pvalue
+cor.test(table.cor[,2],table.cor[,1])  
+##lab="R_ACC_WM_diff_diff";r=0.2866548 ,p-value = 0.5331
+
+cor.test(table.cor[,3],table.cor[,1])
+##lab="L_middle_frontal_WM_diff", r=-0.4394832,p-value = 0.3238
+
+cor.test(table.cor[,4],table.cor[,1])
+##lab="L_frontal_precentral_BA6_WM_diff";r=0.1124038 ,p-value = 0.8104
+cor.test(table.cor[,5],table.cor[,1]) ##lab="R_parietal_WM_diff";r=-0.4601794,p-value = 0.2988
+
+cor.test(table.cor[,6],table.cor[,1]) ##lab="R_middle_frontal_WM_diff";r=0.1205148,p-value = 0.7969
+
+cor.test(table.cor[,7],table.cor[,1]) ##lab="L_temporal_WM.nii.gz_diff";r=-0.1670658 p-value = 0.7203
+
+```
+
+
+```{r,echo=FALSE}
+R_ACC_WM<-data.frame(grid=noddi[,1],pre=noddi[,2],post=noddi[,8])
+L_middle_frontal_WM<-data.frame(grid=noddi[,1],pre=noddi[,3],post=noddi[,9])
+L_frontal_precentral_BA6_WM<-data.frame(grid=noddi[,1],pre=noddi[,4],post=noddi[,10])
+R_parietal_WM<-data.frame(grid=noddi[,1],pre=noddi[,5],post=noddi[,11])
+R_middle_frontal_WM<-data.frame(grid=noddi[,1],pre=noddi[,6],post=noddi[,12])
+L_temporal_WM.nii.gz<-data.frame(grid=noddi[,1],pre=noddi[,7],post=noddi[,13])
+
+
+## long dataset## 
+library(reshape2)
+library(ggplot2)
+L_temporal_WM.nii.gz_long <- melt(L_temporal_WM.nii.gz,
+                           id.vars = "grid",
+                           measure.vars = c("pre","post"),
+                           variable.name = "condition")
+as.numeric(L_temporal_WM.nii.gz_long$value)
+ggplot(L_temporal_WM.nii.gz_long, aes(x=condition, y=value, group=grid, colour=factor(grid))) +
+  geom_line()+
+  geom_point()+
+  scale_x_discrete(limits=c("pre","post"))+
+  labs(x = "Condition",
+       y = "L_temporal_WM.nii.gz",
+       title = "Baseline and  post-treatment for L_temporal_WM.nii.gz")+
+scale_color_manual(values = c("#1C86EE", "#1C86EE", "#1C86EE", "#1C86EE", "#FF7F00", "#FF7F00", "#FF7F00"), guide = FALSE) + 
+    theme_bw()
+
+
+```
+

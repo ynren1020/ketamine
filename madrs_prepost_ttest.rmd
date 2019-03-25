@@ -1,0 +1,179 @@
+---
+title: "MADRS-prepost-ttest"
+author: "Yanan Ren"
+date: "2016Äê10ÔÂ5ÈÕ"
+output: word_document
+---
+
+```{r results = 'asis',echo=FALSE} 
+## read dataset ##
+setwd("D:/Biostatistics/2016FallRA/")
+ketamine<-read.csv("dataset/ketna.csv", header=T, sep=',')
+attach(ketamine)
+nrow(ketamine)
+ncol(ketamine)
+
+##MADRS subset ##
+
+madrs<-c("grid","bl_madrs_total","ptx_madrs_total","post_inf1_madrs_total","pre_inf1_madrs_total","post_inf2_madrs_total","pre_inf2_madrs_total","post_inf3_madrs_total","pre_inf3_madrs_total","post_inf4_madrs_total","pre_inf4_madrs_total","post_inf5_madrs_total","pre_inf5_madrs_total","post_inf6_madrs_total","pre_inf6_madrs_total")
+ketaminemadrs<-ketamine[madrs]
+ncol(ketaminemadrs)
+nrow(ketaminemadrs)
+head(ketaminemadrs)
+#ketaminemadrs[ketaminemadrs[,]=="NULL"]<-NA
+View(ketaminemadrs)
+
+##madrs bl and post trx diff##
+madrsdiff<-ketaminemadrs[,2]-ketaminemadrs[,3]
+
+## madrs infusion 1 ##
+ketaminemadrs1<-na.omit(ketaminemadrs[,4:5])
+nrow(ketaminemadrs1)  ##N=8
+
+inf1_pre.mean<-mean(as.numeric(as.character(ketaminemadrs1[,2])))
+inf1_pre.mean  ##28.375
+inf1_pre.sd<-sd(as.numeric(as.character(ketaminemadrs1[,2])))
+inf1_pre.sd   ##5.902 
+inf1_post.mean<-mean(as.numeric(as.character(ketaminemadrs1[,1])))
+inf1_post.mean  ##12.5
+inf1_post.sd<-sd(as.numeric(as.character(ketaminemadrs1[,1])))
+inf1_post.sd   ##8.992
+
+diff_madrs1<-as.numeric(as.character(ketaminemadrs1[,2]))-as.numeric(as.character(ketaminemadrs1[,1]))
+diff_madrs1
+mean(diff_madrs1) #15.875
+sd(diff_madrs1)   #9.478
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.001
+t.test(diff_madrs1, mu=0, alternative="greater", conf.level=0.95)
+
+## madrs infusion2 ##
+ketaminemadrs2<-na.omit(ketaminemadrs[,6:7])
+nrow(ketaminemadrs2)  ##N=8
+
+inf2_pre.mean<-mean(as.numeric(as.character(ketaminemadrs2[,2])))
+inf2_pre.mean  ##19.375
+inf2_pre.sd<-sd(as.numeric(as.character(ketaminemadrs2[,2])))
+inf2_pre.sd   ##10.197 
+inf2_post.mean<-mean(as.numeric(as.character(ketaminemadrs2[,1])))
+inf2_post.mean  ##12.875
+inf2_post.sd<-sd(as.numeric(as.character(ketaminemadrs2[,1])))
+inf2_post.sd   ##9.433
+
+diff_madrs2<-as.numeric(as.character(ketaminemadrs2[,2]))-as.numeric(as.character(ketaminemadrs2[,1]))
+diff_madrs2
+mean(diff_madrs2) ##6.5
+sd(diff_madrs2)   ##5.529
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.006
+t.test(diff_madrs2, mu=0, alternative="greater", conf.level=0.95)
+
+## madrs infusion3 ##
+ketaminemadrs3<-na.omit(ketaminemadrs[,8:9])
+nrow(ketaminemadrs3)  ##N=8
+
+inf3_pre.mean<-mean(as.numeric(as.character(ketaminemadrs3[,2])))
+inf3_pre.mean  ##19
+inf3_pre.sd<-sd(as.numeric(as.character(ketaminemadrs3[,2])))
+inf3_pre.sd   ##10.515 
+inf3_post.mean<-mean(as.numeric(as.character(ketaminemadrs3[,1])))
+inf3_post.mean  ##13.5
+inf3_post.sd<-sd(as.numeric(as.character(ketaminemadrs3[,1])))
+inf3_post.sd   ##9.769
+
+diff_madrs3<-as.numeric(as.character(ketaminemadrs3[,2]))-as.numeric(as.character(ketaminemadrs3[,1]))
+diff_madrs3
+mean(diff_madrs3)  ##5.5
+sd(diff_madrs3)    ##4.598
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.006
+t.test(diff_madrs3, mu=0, alternative="greater", conf.level=0.95)
+
+## madrs infusion4 ##
+ketaminemadrs4<-na.omit(ketaminemadrs[,10:11])
+nrow(ketaminemadrs4)  ##N=8
+
+inf4_pre.mean<-mean(as.numeric(as.character(ketaminemadrs4[,2])))
+inf4_pre.mean  ##15.5
+inf4_pre.sd<-sd(as.numeric(as.character(ketaminemadrs4[,2])))
+inf4_pre.sd   ##7.407
+inf4_post.mean<-mean(as.numeric(as.character(ketaminemadrs4[,1])))
+inf4_post.mean  ##11.375
+inf4_post.sd<-sd(as.numeric(as.character(ketaminemadrs4[,1])))
+inf4_post.sd   ##9.927
+
+diff_madrs4<-as.numeric(as.character(ketaminemadrs4[,2]))-as.numeric(as.character(ketaminemadrs4[,1]))
+diff_madrs4
+mean(diff_madrs4)  ##4.125
+sd(diff_madrs4)    ##5.668
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.039
+t.test(diff_madrs4, mu=0, alternative="greater", conf.level=0.95)
+
+## madrs infusion5 ##
+ketaminemadrs5<-na.omit(ketaminemadrs[,12:13])
+nrow(ketaminemadrs5)  ##N=7
+
+inf5_pre.mean<-mean(as.numeric(as.character(ketaminemadrs5[,2])))
+inf5_pre.mean  ##15.57143
+inf5_pre.sd<-sd(as.numeric(as.character(ketaminemadrs5[,2])))
+inf5_pre.sd   ##10.86059 
+inf5_post.mean<-mean(as.numeric(as.character(ketaminemadrs5[,1])))
+inf5_post.mean  ##11.28571
+inf5_post.sd<-sd(as.numeric(as.character(ketaminemadrs5[,1])))
+inf5_post.sd   ##10.82765
+
+diff_madrs5<-as.numeric(as.character(ketaminemadrs5[,2]))-as.numeric(as.character(ketaminemadrs5[,1]))
+diff_madrs5
+mean(diff_madrs5)  ## 4.285714
+sd(diff_madrs5)    ## 4.644505
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.025
+t.test(diff_madrs5, mu=0, alternative="greater", conf.level=0.95)
+
+## madrs infusion6 ##
+ketaminemadrs6<-na.omit(ketaminemadrs[,14:15])
+nrow(ketaminemadrs6)  ##N=8
+
+inf6_pre.mean<-mean(as.numeric(as.character(ketaminemadrs6[,2])))
+inf6_pre.mean  ##13.625
+inf6_pre.sd<-sd(as.numeric(as.character(ketaminemadrs6[,2])))
+inf6_pre.sd   ##8.667
+inf6_post.mean<-mean(as.numeric(as.character(ketaminemadrs6[,1])))
+inf6_post.mean  ##8.5
+inf6_post.sd<-sd(as.numeric(as.character(ketaminemadrs6[,1])))
+inf6_post.sd   ##8.246
+
+diff_madrs6<-as.numeric(as.character(ketaminemadrs6[,2]))-as.numeric(as.character(ketaminemadrs6[,1]))
+diff_madrs6
+mean(diff_madrs6) ##5.125
+sd(diff_madrs6)   ##5.463
+## one sample t-test for diff with Ho: mu=0 Ha=greater ## p.value=0.016
+t.test(diff_madrs6, mu=0, alternative="greater", conf.level=0.95)
+
+## create data frame for MADRS output ##  
+Infusion<-paste("MADRS",1:6,sep="")
+length(Infusion)
+
+meanpreinf<-round(c(inf1_pre.mean,inf2_pre.mean,inf3_pre.mean,inf4_pre.mean,inf5_pre.mean,inf6_pre.mean),digits=1)
+sdpreinf<-round(c(inf1_pre.sd,inf2_pre.sd,inf3_pre.sd,inf4_pre.sd,inf5_pre.sd,inf6_pre.sd),digits=1)
+preinf<-paste(meanpreinf,"¡À",sdpreinf,sep="")
+
+meanpostinf<-round(c(inf1_post.mean,inf2_post.mean,inf3_post.mean,inf4_post.mean,inf5_post.mean,inf6_post.mean),digits=1)
+sdpostinf<-round(c(inf1_post.sd,inf2_post.sd,inf3_post.sd,inf4_post.sd,inf5_post.sd,inf6_post.sd),digits=1)
+twohrpostinf<-paste(meanpostinf,"¡À",sdpostinf,sep="")
+
+meandiff<-round(c(mean(diff_madrs1),mean(diff_madrs2),mean(diff_madrs3),mean(diff_madrs4),mean(diff_madrs5),mean(diff_madrs6)),digits=1)
+sddiff<-round(c(sd(diff_madrs1),sd(diff_madrs2),sd(diff_madrs3),sd(diff_madrs4),sd(diff_madrs5),sd(diff_madrs6)),digits=1)
+difference<-paste(meandiff,"¡À",sddiff,sep="")
+
+N<-c(rep(8,4),7,8)
+N
+
+p.value<-c(0.001,0.006,0.006,0.039,0.025,0.016)
+
+madrsdata<-data.frame(Infusion,preinf,twohrpostinf,difference,N,p.value)
+madrsdata
+##write madrs table##
+#setwd("D:/Biostatistics/2016FallRA/output")
+#write.csv(madrsdata, file = "madrs.csv")
+library(knitr)
+kable(madrsdata, caption = "Table 6. MADRS Secondary Outcomes")
+
+```
+

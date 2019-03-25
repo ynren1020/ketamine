@@ -1,0 +1,91 @@
+---
+title: "3_perchange_id"
+author: "Yanan Ren"
+date: "2016Äê10ÔÂ5ÈÕ"
+output: word_document
+---
+####percent change of bdi, cdrs and madrs####
+```{r results = 'asis',echo=FALSE} 
+## read dataset ##
+ketamine <- read.csv('D:/Biostatistics/2016FallRA/ketamine.csv',header=T, sep=',')
+nrow(ketamine)
+ncol(ketamine)
+
+##percent change subset ##
+
+perchange<-c("grid","bl_cdrs_comb_total_raw_summary_score","ptx_cdrs_comb_total_raw_summary_score","bl_bdi_total_score","ptx_bdi_total_score","bl_madrs_total","ptx_madrs_total")
+ketamineperchange<-ketamine[perchange]
+ncol(ketamineperchange)
+nrow(ketamineperchange)
+head(ketamineperchange)
+ketamineperchange[ketamineperchange[,]=="NULL"]<-NA
+View(ketamineperchange)
+
+## cdrs perchange ##
+ketaminecdrs<-na.omit(ketamineperchange[,2:3])
+
+diff_cdrs<-as.numeric(as.character(ketaminecdrs[,1]))-as.numeric(as.character(ketaminecdrs[,2]))
+diff_cdrs
+mean(diff_cdrs)
+sd(diff_cdrs)
+
+perchange_cdrs<-diff_cdrs/(as.numeric(as.character(ketaminecdrs[,1]))-17)
+perchange_cdrs
+id<-c(1,2,3,4,5,7,8,9)
+## plot for cdrs perchange ##
+plot(perchange_cdrs~id)
+
+## bdi perchange ##
+ketaminebdiplot<-na.omit(ketamineperchange[,4:5])
+
+diff_bdi<-as.numeric(as.character(ketaminebdiplot[,1]))-as.numeric(as.character(ketaminebdiplot[,2]))
+diff_bdi
+mean(diff_bdi)
+sd(diff_bdi)
+
+perchange_bdi<-diff_bdi/as.numeric(as.character(ketaminebdiplot[,1]))
+perchange_bdi
+id<-c(1,2,3,4,5,7,8,9)
+## plot for cdrs perchange ##
+plot(perchange_bdi~id)
+
+## madrs perchange ##
+ketaminemadrsplot<-na.omit(ketamineperchange[,6:7])
+
+diff_madrs<-as.numeric(as.character(ketaminemadrsplot[,1]))-as.numeric(as.character(ketaminemadrsplot[,2]))
+diff_madrs
+mean(diff_madrs)
+sd(diff_madrs)
+
+perchange_madrs<-diff_madrs/as.numeric(as.character(ketaminemadrsplot[,1]))
+perchange_madrs
+id<-c(1,2,3,4,5,7,8,9)
+## plot for cdrs perchange ##
+plot(perchange_madrs~id)
+
+## perchange data frame ##
+perchange<-c(perchange_cdrs,perchange_bdi,perchange_madrs)
+perchange
+id<-as.factor(rep(c(1,2,3,4,5,7,8,9),3))
+id
+scale<-c(rep("C:CDRS",8),rep("B:BDI",8),rep("M:MADRS",8))
+scale
+
+name<-c(rep("C",8),rep("B",8),rep("M",8))
+name
+perchange_plot<-data.frame(perchange,id,scale,name)
+perchange_plot
+
+library(ggplot2)
+sp<-ggplot(perchange_plot,aes(x=id,y=perchange,colour=scale))+geom_point()
+sp1<-sp+geom_text(aes(y=perchange+.02,label=name),size=4,vjust=0)
+sp2<-sp1+xlab("Subject")+ylab("% change")
+sp2
+sp3<-sp2+ggtitle("Percent Change from Baseline to Post-treatment")
+sp3
+
+
+```
+
+
+
